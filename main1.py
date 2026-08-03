@@ -75,3 +75,4 @@ customer.add_order(order)
 
 print("\nЗагальна сума замовлення:")
 print(order.total_price)
+#test

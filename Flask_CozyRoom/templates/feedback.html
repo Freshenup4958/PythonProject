@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>💌 Ваші ідеї</h1>
+
+<form method="POST">
+
+    <label>Ваше ім'я</label><br>
+
+    <input type="text" name="name">
+
+    <br><br>
+
+    <button type="submit">Надіслати</button>
+
+</form>
+
+<p>{{ message }}</p>
+
+{% endblock %}

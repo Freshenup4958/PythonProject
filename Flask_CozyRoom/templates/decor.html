@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>🌿 Декор</h1>
+
+<h3>Наші улюблені елементи затишку</h3>
+
+<ul>
+    <li>🪴 Кімнатні рослини</li>
+    <li>🕯 Ароматичні свічки</li>
+    <li>✨ Гірлянди</li>
+    <li>🪵 Дерев'яні полиці</li>
+    <li>🛋 М'які пледи</li>
+</ul>
+<h2>🌿 Кімнатні рослини</h2>
+
+<img src="{{ url_for('static', filename='images/plant.jpg') }}" width="250">
+
+<h2>🕯 Свічки</h2>
+
+<img src="{{ url_for('static', filename='images/candle.jpg') }}" width="250">
+
+{% endblock %}
