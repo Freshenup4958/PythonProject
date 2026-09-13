@@ -6,6 +6,11 @@ from django.views.generic import (
     DeleteView,
 )
 from .models import Book, Category
+from django.contrib.auth.mixins import PermissionRequiredMixin
+import logging
+
+
+logger = logging.getLogger('books')
 
 class BookListView(ListView):
     model = Book
@@ -13,6 +18,9 @@ class BookListView(ListView):
     context_object_name = 'books'
     paginate_by = 3
 
+    def get(self, request, *args, **kwargs):
+        logger.info('Book list page was opened')
+        return super().get(request, *args, **kwargs)
     def get_queryset(self):
         queryset = super().get_queryset()
         category = self.request.GET.get('category')
@@ -20,6 +28,7 @@ class BookListView(ListView):
         if category:
             queryset = queryset.filter(category_id=category)
 
+        queryset = queryset.order_by('id')
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -50,3 +59,23 @@ class BookDeleteView(DeleteView):
     model = Book
     template_name = 'books/book_confirm_delete.html'
     success_url = '/'
+
+class BookCreateView(PermissionRequiredMixin, CreateView):
+    model = Book
+    template_name = 'books/book_form.html'
+    fields = ['category', 'title', 'author', 'price', 'description', 'stock']
+    success_url = '/'
+    permission_required = 'books.add_book'
+
+class BookUpdateView(PermissionRequiredMixin, UpdateView):
+    model = Book
+    template_name = 'books/book_form.html'
+    fields = ['category', 'title', 'author', 'price', 'description', 'stock']
+    success_url = '/'
+    permission_required = 'books.change_book'
+
+class BookDeleteView(PermissionRequiredMixin, DeleteView):
+    model = Book
+    template_name = 'books/book_confirm_delete.html'
+    success_url = '/'
+    permission_required = 'books.delete_book'
