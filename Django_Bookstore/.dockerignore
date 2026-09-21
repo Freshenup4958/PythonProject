@@ -1,0 +1,11 @@
+.venv/
+.idea/
+.git/
+.gitignore
+__pycache__/
+*.pyc
+db.sqlite3
+.env
+migration_data.json
+books_data.json
+staticfiles/

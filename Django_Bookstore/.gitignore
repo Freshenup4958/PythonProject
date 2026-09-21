@@ -3,3 +3,6 @@ __pycache__/
 .idea/
 db.sqlite3
 books_data.json
+.env
+staticfiles/
+migration_data.json
