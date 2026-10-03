@@ -1,0 +1,33 @@
+{% extends "books/base.html" %}
+
+{% block title %}
+Замовлення створено
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="alert alert-success">
+        <h2>Замовлення успішно створено!</h2>
+
+        <p>
+            Номер вашого замовлення:
+            <strong>#{{ order.id }}</strong>
+        </p>
+
+        <p>
+            Загальна сума:
+            <strong>${{ order.get_total_cost }}</strong>
+        </p>
+    </div>
+
+    <a href="{% url 'books:payment_process' order.id %}"
+   class="btn btn-success">
+    Перейти до оплати
+    </a>
+
+    <a href="{% url 'books:book_list' %}"
+       class="btn btn-primary">
+        Повернутися до магазину
+    </a>
+</div>
+{% endblock %}

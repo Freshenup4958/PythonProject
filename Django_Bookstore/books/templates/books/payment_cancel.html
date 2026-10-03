@@ -1,0 +1,22 @@
+{% extends "books/base.html" %}
+
+{% block title %}
+Оплату скасовано
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="alert alert-warning">
+        <h2>Оплату скасовано</h2>
+        <p>
+            Платіж не було завершено. Ви можете повернутися до магазину
+            та спробувати ще раз.
+        </p>
+    </div>
+
+    <a href="{% url 'books:book_list' %}"
+       class="btn btn-primary">
+        Повернутися до магазину
+    </a>
+</div>
+{% endblock %}

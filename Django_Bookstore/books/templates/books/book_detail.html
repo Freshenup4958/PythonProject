@@ -38,6 +38,17 @@
             {{ book.description }}
         </p>
 
+                {% if book.stock > 0 %}
+        <a href="{% url 'books:cart_add' book.id %}"
+               class="btn btn-success">
+                Додати до кошика
+        </a>
+          {% else %}
+            <button class="btn btn-secondary" disabled>
+                Немає в наявності
+            </button>
+          {% endif %}
+
         <a href="{% url 'books:book_update' book.pk %}"
           class="btn btn-warning">
             Редагувати

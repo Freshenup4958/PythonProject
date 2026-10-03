@@ -1,0 +1,21 @@
+{% extends "books/base.html" %}
+
+{% block title %}
+Оплата успішна
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="alert alert-success">
+        <h2>Оплата успішна!</h2>
+        <p>
+            Дякуємо за покупку. Ваш платіж успішно оброблено.
+        </p>
+    </div>
+
+    <a href="{% url 'books:book_list' %}"
+       class="btn btn-primary">
+        Повернутися до магазину
+    </a>
+</div>
+{% endblock %}

@@ -164,3 +164,7 @@ LOGGING = {
         },
     },
 }
+
+DEFAULT_FROM_EMAIL = 'bookstore@example.com'
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY', '')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
