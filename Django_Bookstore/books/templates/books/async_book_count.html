@@ -1,0 +1,17 @@
+{% extends 'books/base.html' %}
+{% load i18n %}
+
+{% block title %}Async Book Count{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h1>Async Book Count</h1>
+
+    <p>
+        Number of books in database:
+        <strong>{{ count }}</strong>
+    </p>
+</div>
+
+{% endblock %}

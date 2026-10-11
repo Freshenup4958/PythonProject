@@ -1,22 +1,25 @@
 {% extends "books/base.html" %}
+{% load i18n %}
 
-{% block title %}
-Оплату скасовано
-{% endblock %}
+{% block title %}{% translate "Payment cancelled" %}{% endblock %}
 
 {% block content %}
+
 <div class="container mt-4">
+
     <div class="alert alert-warning">
-        <h2>Оплату скасовано</h2>
+        <h2>{% translate "Payment cancelled" %}</h2>
+
         <p>
-            Платіж не було завершено. Ви можете повернутися до магазину
-            та спробувати ще раз.
+            {% translate "The payment was not completed. You can return to the store and try again." %}
         </p>
     </div>
 
     <a href="{% url 'books:book_list' %}"
        class="btn btn-primary">
-        Повернутися до магазину
+        {% translate "Back to store" %}
     </a>
+
 </div>
+
 {% endblock %}

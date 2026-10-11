@@ -1,16 +1,18 @@
 {% extends "books/base.html" %}
+{% load i18n %}
 
-{% block title %}
-Оформлення замовлення
-{% endblock %}
+{% block title %}{% translate "Checkout" %}{% endblock %}
 
 {% block content %}
+
 <div class="container mt-4">
-    <h1>Оформлення замовлення</h1>
+
+    <h1>{% translate "Checkout" %}</h1>
 
     <div class="card mb-4">
         <div class="card-body">
-            <h4>Ваше замовлення</h4>
+
+            <h4>{% translate "Your order" %}</h4>
 
             <ul class="list-group mb-3">
                 {% for item in cart %}
@@ -18,6 +20,7 @@
                         <span>
                             {{ item.book.title }} × {{ item.quantity }}
                         </span>
+
                         <span>
                             ${{ item.total_price }}
                         </span>
@@ -26,24 +29,29 @@
             </ul>
 
             <h5>
-                Разом: ${{ cart.get_total_price }}
+                {% translate "Total" %}: ${{ cart.get_total_price }}
             </h5>
+
         </div>
     </div>
 
     <form method="post">
+
         {% csrf_token %}
 
         {{ form.as_p }}
 
         <button type="submit" class="btn btn-success">
-            Створити замовлення
+            {% translate "Create order" %}
         </button>
 
         <a href="{% url 'books:cart_detail' %}"
            class="btn btn-secondary">
-            Назад до кошика
+            {% translate "Back to cart" %}
         </a>
+
     </form>
+
 </div>
+
 {% endblock %}

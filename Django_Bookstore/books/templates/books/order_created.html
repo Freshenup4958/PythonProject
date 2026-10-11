@@ -1,33 +1,38 @@
 {% extends "books/base.html" %}
+{% load i18n %}
 
-{% block title %}
-Замовлення створено
-{% endblock %}
+{% block title %}{% translate "Order created" %}{% endblock %}
 
 {% block content %}
+
 <div class="container mt-4">
+
     <div class="alert alert-success">
-        <h2>Замовлення успішно створено!</h2>
+
+        <h2>{% translate "Order successfully created!" %}</h2>
 
         <p>
-            Номер вашого замовлення:
+            {% translate "Your order number" %}:
             <strong>#{{ order.id }}</strong>
         </p>
 
         <p>
-            Загальна сума:
+            {% translate "Total" %}:
             <strong>${{ order.get_total_cost }}</strong>
         </p>
+
     </div>
 
     <a href="{% url 'books:payment_process' order.id %}"
-   class="btn btn-success">
-    Перейти до оплати
+       class="btn btn-success">
+        {% translate "Proceed to payment" %}
     </a>
 
     <a href="{% url 'books:book_list' %}"
        class="btn btn-primary">
-        Повернутися до магазину
+        {% translate "Back to store" %}
     </a>
+
 </div>
+
 {% endblock %}

@@ -1,4 +1,5 @@
 {% extends 'books/base.html' %}
+{% load i18n %}
 
 {% block title %}
 {{ book.title }}
@@ -14,53 +15,54 @@
         </h1>
 
         <p>
-            <strong>Автор:</strong>
+            <strong>{% translate "Author" %}:</strong>
             {{ book.author }}
         </p>
 
         <p>
-            <strong>Категорія:</strong>
+            <strong>{% translate "Category" %}:</strong>
             {{ book.category }}
         </p>
 
         <p>
-            <strong>Ціна:</strong>
+            <strong>{% translate "Price" %}:</strong>
             {{ book.price }}
         </p>
 
         <p>
-            <strong>В наявності:</strong>
+            <strong>{% translate "In stock" %}:</strong>
             {{ book.stock }}
         </p>
 
         <p>
-            <strong>Опис:</strong>
+            <strong>{% translate "Description" %}:</strong>
             {{ book.description }}
         </p>
 
-                {% if book.stock > 0 %}
-        <a href="{% url 'books:cart_add' book.id %}"
+        {% if book.stock > 0 %}
+            <a href="{% url 'books:cart_add' book.id %}"
                class="btn btn-success">
-                Додати до кошика
-        </a>
-          {% else %}
+                {% translate "Add to cart" %}
+            </a>
+        {% else %}
             <button class="btn btn-secondary" disabled>
-                Немає в наявності
+                {% translate "Out of stock" %}
             </button>
-          {% endif %}
+        {% endif %}
 
         <a href="{% url 'books:book_update' book.pk %}"
-          class="btn btn-warning">
-            Редагувати
+           class="btn btn-warning">
+            {% translate "Edit" %}
         </a>
 
         <a href="{% url 'books:book_list' %}"
-          class="btn btn-secondary">
-            Назад до списку
+           class="btn btn-secondary">
+            {% translate "Back to list" %}
         </a>
+
         <a href="{% url 'books:book_delete' book.pk %}"
            class="btn btn-danger">
-            Видалити
+            {% translate "Delete" %}
         </a>
 
     </div>

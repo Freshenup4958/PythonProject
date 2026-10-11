@@ -1,20 +1,27 @@
 {% extends "books/base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Shopping Cart" %}{% endblock %}
 
 {% block content %}
+
 <div class="container mt-4">
-    <h1>Shopping Cart</h1>
+
+    <h1>{% translate "Shopping Cart" %}</h1>
 
     {% if cart %}
+
         <table class="table">
             <thead>
                 <tr>
-                    <th>Book</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                    <th>Action</th>
+                    <th>{% translate "Book" %}</th>
+                    <th>{% translate "Quantity" %}</th>
+                    <th>{% translate "Price" %}</th>
+                    <th>{% translate "Total" %}</th>
+                    <th>{% translate "Action" %}</th>
                 </tr>
             </thead>
+
             <tbody>
                 {% for item in cart %}
                     <tr>
@@ -23,31 +30,41 @@
                         <td>${{ item.price }}</td>
                         <td>${{ item.total_price }}</td>
                         <td>
-                        <a href="{% url 'books:cart_remove' item.book.id %}"
-                           class="btn btn-danger btn-sm">
-                            Видалити
-                        </a>
-</td>
+                            <a href="{% url 'books:cart_remove' item.book.id %}"
+                               class="btn btn-danger btn-sm">
+                                {% translate "Remove" %}
+                            </a>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-        <h4>Total: ${{ cart.get_total_price }}</h4>
+        <h4>
+            {% translate "Total" %}: ${{ cart.get_total_price }}
+        </h4>
+
         <a href="{% url 'books:order_create' %}"
-         class="btn btn-success mb-3">
-            Оформити замовлення
+           class="btn btn-success mb-3">
+            {% translate "Checkout" %}
         </a>
+
         <a href="{% url 'books:cart_clear' %}"
-        class="btn btn-danger mb-3">
-        Очистити кошик
+           class="btn btn-danger mb-3">
+            {% translate "Clear cart" %}
         </a>
+
     {% else %}
-        <p>Your cart is empty.</p>
+
+        <p>{% translate "Your cart is empty." %}</p>
+
     {% endif %}
 
-    <a href="{% url 'books:book_list' %}" class="btn btn-secondary">
-        Continue shopping
+    <a href="{% url 'books:book_list' %}"
+       class="btn btn-secondary">
+        {% translate "Continue shopping" %}
     </a>
+
 </div>
+
 {% endblock %}

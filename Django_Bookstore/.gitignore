@@ -6,3 +6,7 @@ books_data.json
 .env
 staticfiles/
 migration_data.json
+.coverage
+.pytest_cache/
+__pycache__/
+*.pyc

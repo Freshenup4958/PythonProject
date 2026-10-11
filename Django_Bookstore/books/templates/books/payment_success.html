@@ -1,21 +1,25 @@
 {% extends "books/base.html" %}
+{% load i18n %}
 
-{% block title %}
-Оплата успішна
-{% endblock %}
+{% block title %}{% translate "Payment successful" %}{% endblock %}
 
 {% block content %}
+
 <div class="container mt-4">
+
     <div class="alert alert-success">
-        <h2>Оплата успішна!</h2>
+        <h2>{% translate "Payment successful!" %}</h2>
+
         <p>
-            Дякуємо за покупку. Ваш платіж успішно оброблено.
+            {% translate "Thank you for your purchase. Your payment has been successfully processed." %}
         </p>
     </div>
 
     <a href="{% url 'books:book_list' %}"
        class="btn btn-primary">
-        Повернутися до магазину
+        {% translate "Back to store" %}
     </a>
+
 </div>
+
 {% endblock %}

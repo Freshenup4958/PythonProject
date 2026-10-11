@@ -1,4 +1,5 @@
 from django.urls import path
+from . import views
 from .views import (
     BookListView,
     BookDetailView,
@@ -31,4 +32,7 @@ urlpatterns = [
     path('payment/process/<int:order_id>/',payment_process,name='payment_process'),
     path('payment/success/', payment_success, name='payment_success'),
     path('payment/cancel/', payment_cancel, name='payment_cancel'),
+    path('async/book-count/', views.async_book_count, name='async_book_count'),
+    path('async/book/<int:book_id>/', views.async_book_detail, name='async_book_detail'),
+    path('async/order-count/', views.async_order_count, name='async_order_count'),
 ]

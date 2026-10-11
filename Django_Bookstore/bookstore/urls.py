@@ -6,6 +6,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('books.urls')),
     path('accounts/', include('accounts.urls')),
+    path('i18n/', include('django.conf.urls.i18n')),
 ]
 if settings.DEBUG:
     import debug_toolbar

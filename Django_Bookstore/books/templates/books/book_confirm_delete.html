@@ -1,13 +1,14 @@
 {% extends 'books/base.html' %}
+{% load i18n %}
 
-{% block title %}Видалити книгу{% endblock %}
+{% block title %}{% translate "Delete book" %}{% endblock %}
 
 {% block content %}
 
-<h1>Видалити книгу</h1>
+<h1>{% translate "Delete book" %}</h1>
 
 <p>
-    Ви впевнені, що хочете видалити
+    {% translate "Are you sure you want to delete" %}
     <strong>{{ book.title }}</strong>?
 </p>
 
@@ -15,12 +16,12 @@
     {% csrf_token %}
 
     <button type="submit" class="btn btn-danger">
-        Так, видалити
+        {% translate "Yes, delete" %}
     </button>
 
     <a href="{% url 'books:book_detail' book.pk %}"
        class="btn btn-secondary">
-        Скасувати
+        {% translate "Cancel" %}
     </a>
 </form>
 

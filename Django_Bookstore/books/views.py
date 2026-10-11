@@ -95,6 +95,8 @@ def cart_remove(request, book_id):
 
     cart.remove(book)
 
+    return redirect('books:cart_detail')
+
 def cart_clear(request):
         cart = Cart(request)
         cart.clear()
@@ -202,3 +204,30 @@ def payment_success(request):
 
 def payment_cancel(request):
     return render(request, 'books/payment_cancel.html')
+async def async_book_count(request):
+    count = await Book.objects.acount()
+
+    return render(
+        request,
+        'books/async_book_count.html',
+        {'count': count}
+    )
+
+async def async_book_detail(request, book_id):
+    book = await Book.objects.select_related('category').aget(id=book_id)
+
+    return render(
+        request,
+        'books/async_book_detail.html',
+        {'book': book}
+    )
+
+
+async def async_order_count(request):
+    count = await Order.objects.acount()
+
+    return render(
+        request,
+        'books/async_order_count.html',
+        {'count': count}
+    )

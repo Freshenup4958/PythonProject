@@ -1,0 +1,206 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Django Bookstore\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 == 0 || (n % 10 >= 5 && n % 10 <= 9) || (n % 100 >= 11 && n % 100 <= 14)) ? 2 : 3);\n"
+
+msgid "Login"
+msgstr "Увійти"
+
+msgid "Register"
+msgstr "Реєстрація"
+
+msgid "First name"
+msgstr "Ім'я"
+
+msgid "Last name"
+msgstr "Прізвище"
+
+msgid "Email"
+msgstr "Електронна пошта"
+
+msgid "Address"
+msgstr "Адреса"
+
+msgid "Name"
+msgstr "Назва"
+
+msgid "Slug"
+msgstr "Слаг"
+
+msgid "Category"
+msgstr "Категорія"
+
+msgid "Categories"
+msgstr "Категорії"
+
+msgid "Title"
+msgstr "Назва"
+
+msgid "Author"
+msgstr "Автор"
+
+msgid "Price"
+msgstr "Ціна"
+
+msgid "Description"
+msgstr "Опис"
+
+msgid "Stock"
+msgstr "Кількість на складі"
+
+msgid "Book"
+msgstr "Книга"
+
+msgid "Books"
+msgstr "Книги"
+
+msgid "Created"
+msgstr "Створено"
+
+msgid "Paid"
+msgstr "Оплачено"
+
+msgid "Order"
+msgstr "Замовлення"
+
+msgid "Orders"
+msgstr "Замовлення"
+
+msgid "Quantity"
+msgstr "Кількість"
+
+msgid "Order item"
+msgstr "Позиція замовлення"
+
+msgid "Order items"
+msgstr "Позиції замовлення"
+
+msgid "Bookstore"
+msgstr "Книжковий магазин"
+
+msgid "Hello"
+msgstr "Привіт"
+
+msgid "Logout"
+msgstr "Вийти"
+
+msgid "Delete book"
+msgstr "Видалити книгу"
+
+msgid "Are you sure you want to delete"
+msgstr "Ви впевнені, що хочете видалити"
+
+msgid "Yes, delete"
+msgstr "Так, видалити"
+
+msgid "Cancel"
+msgstr "Скасувати"
+
+msgid "In stock"
+msgstr "В наявності"
+
+msgid "Add to cart"
+msgstr "Додати до кошика"
+
+msgid "Out of stock"
+msgstr "Немає в наявності"
+
+msgid "Edit"
+msgstr "Редагувати"
+
+msgid "Back to list"
+msgstr "Назад до списку"
+
+msgid "Delete"
+msgstr "Видалити"
+
+msgid "Add book"
+msgstr "Додати книгу"
+
+msgid "Save"
+msgstr "Зберегти"
+
+msgid "Book list"
+msgstr "Список книг"
+
+msgid "All categories"
+msgstr "Усі категорії"
+
+msgid "Filter"
+msgstr "Фільтрувати"
+
+msgid "No books yet."
+msgstr "Книг поки немає."
+
+msgid "Previous"
+msgstr "Попередня"
+
+msgid "Next"
+msgstr "Наступна"
+
+msgid "Shopping Cart"
+msgstr "Кошик"
+
+msgid "Total"
+msgstr "Разом"
+
+msgid "Action"
+msgstr "Дія"
+
+msgid "Remove"
+msgstr "Видалити"
+
+msgid "Checkout"
+msgstr "Оформлення замовлення"
+
+msgid "Clear cart"
+msgstr "Очистити кошик"
+
+msgid "Your cart is empty."
+msgstr "Ваш кошик порожній."
+
+msgid "Continue shopping"
+msgstr "Продовжити покупки"
+
+msgid "Your order"
+msgstr "Ваше замовлення"
+
+msgid "Create order"
+msgstr "Створити замовлення"
+
+msgid "Back to cart"
+msgstr "Назад до кошика"
+
+msgid "Order created"
+msgstr "Замовлення створено"
+
+msgid "Order successfully created!"
+msgstr "Замовлення успішно створено!"
+
+msgid "Your order number"
+msgstr "Номер вашого замовлення"
+
+msgid "Proceed to payment"
+msgstr "Перейти до оплати"
+
+msgid "Back to store"
+msgstr "Повернутися до магазину"
+
+msgid "Payment cancelled"
+msgstr "Оплату скасовано"
+
+msgid "The payment was not completed. You can return to the store and try again."
+msgstr "Платіж не було завершено. Ви можете повернутися до магазину та спробувати ще раз."
+
+msgid "Payment successful"
+msgstr "Оплата успішна"
+
+msgid "Payment successful!"
+msgstr "Оплата успішна!"
+
+msgid "Thank you for your purchase. Your payment has been successfully processed."
+msgstr "Дякуємо за покупку. Ваш платіж успішно оброблено."
