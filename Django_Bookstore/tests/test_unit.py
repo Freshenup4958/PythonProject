@@ -15,14 +15,17 @@ from tests.factories import (
 @pytest.mark.django_db
 class TestCategoryModel:
 
+    # Generated with AI, reviewed and modified
     def test_category_creation(self):
         category = CategoryFactory()
         assert category.pk is not None
 
+    # Generated with AI, reviewed and modified
     def test_category_str(self):
         category = CategoryFactory(name='Fiction')
         assert str(category) == 'Fiction'
 
+    # Generated with AI, reviewed and modified
     def test_category_slug(self):
         category = CategoryFactory(slug='fiction')
         assert category.slug == 'fiction'
@@ -31,22 +34,27 @@ class TestCategoryModel:
 @pytest.mark.django_db
 class TestBookModel:
 
+    # Generated with AI, reviewed and modified
     def test_book_creation(self):
         book = BookFactory()
         assert book.pk is not None
 
+    # Generated with AI, reviewed and modified
     def test_book_str(self):
         book = BookFactory(title='Django Book')
         assert str(book) == 'Django Book'
 
+    # Generated with AI, reviewed and modified
     def test_book_default_stock(self):
         book = BookFactory(stock=10)
         assert book.stock == 10
 
+    # Generated with AI, reviewed and modified
     def test_book_price(self):
         book = BookFactory(price=Decimal('125.50'))
         assert book.price == Decimal('125.50')
 
+    # Generated with AI, reviewed and modified
     def test_book_has_category(self):
         category = CategoryFactory()
         book = BookFactory(category=category)
@@ -56,18 +64,22 @@ class TestBookModel:
 @pytest.mark.django_db
 class TestOrderModel:
 
+    # Generated with AI, reviewed and modified
     def test_order_creation(self):
         order = OrderFactory()
         assert order.pk is not None
 
+    # Generated with AI, reviewed and modified
     def test_order_default_paid(self):
         order = OrderFactory()
         assert order.paid is False
 
+    # Generated with AI, reviewed and modified# Generated with AI, reviewed and modified
     def test_order_str(self):
         order = OrderFactory()
         assert str(order) == f'Order {order.id}'
 
+    # Generated with AI, reviewed and modified
     def test_order_total_cost(self):
         order = OrderFactory()
 
@@ -89,10 +101,12 @@ class TestOrderModel:
 @pytest.mark.django_db
 class TestOrderItemModel:
 
+    # Generated with AI, reviewed and modified
     def test_order_item_creation(self):
         item = OrderItemFactory()
         assert item.pk is not None
 
+    # Generated with AI, reviewed and modified
     def test_order_item_cost(self):
         item = OrderItemFactory(
             price=Decimal('25.00'),
@@ -101,6 +115,7 @@ class TestOrderItemModel:
 
         assert item.get_cost() == Decimal('100.00')
 
+    # Generated with AI, reviewed and modified
     def test_order_item_str(self):
         book = BookFactory(title='Test Book')
 
@@ -115,6 +130,7 @@ class TestOrderItemModel:
 @pytest.mark.django_db
 class TestOrderCreateForm:
 
+    # Generated with AI, reviewed and modified
     def test_valid_order_form(self):
         form = OrderCreateForm(
             data={
@@ -127,6 +143,7 @@ class TestOrderCreateForm:
 
         assert form.is_valid()
 
+    # Generated with AI, reviewed and modified
     def test_form_requires_first_name(self):
         form = OrderCreateForm(
             data={
@@ -139,6 +156,7 @@ class TestOrderCreateForm:
         assert not form.is_valid()
         assert 'first_name' in form.errors
 
+    # Generated with AI, reviewed and modified
     def test_form_requires_last_name(self):
         form = OrderCreateForm(
             data={
@@ -151,6 +169,7 @@ class TestOrderCreateForm:
         assert not form.is_valid()
         assert 'last_name' in form.errors
 
+    # Generated with AI, reviewed and modified
     def test_form_rejects_invalid_email(self):
         form = OrderCreateForm(
             data={
@@ -164,6 +183,7 @@ class TestOrderCreateForm:
         assert not form.is_valid()
         assert 'email' in form.errors
 
+    # Generated with AI, reviewed and modified
     def test_form_requires_address(self):
         form = OrderCreateForm(
             data={

@@ -5,16 +5,23 @@ import pytest
 from django.urls import reverse
 
 from books.models import Order, OrderItem
-from tests.factories import BookFactory, CategoryFactory, OrderFactory
+from tests.factories import (
+    BookFactory,
+    CategoryFactory,
+    OrderFactory,
+    OrderItemFactory,
+)
 
 
 @pytest.mark.django_db
 class TestBookPages:
 
+    # Generated with AI, reviewed and modified
     def test_book_list_page(self, client):
         response = client.get(reverse('books:book_list'))
         assert response.status_code == 200
 
+    # Generated with AI, reviewed and modified
     def test_book_list_displays_book(self, client):
         book = BookFactory(title='Integration Test Book')
 
@@ -23,6 +30,7 @@ class TestBookPages:
         assert response.status_code == 200
         assert 'Integration Test Book' in response.content.decode()
 
+    # Generated with AI, reviewed and modified
     def test_book_list_filter_by_category(self, client):
         category = CategoryFactory()
         book = BookFactory(category=category)
@@ -35,6 +43,7 @@ class TestBookPages:
         assert response.status_code == 200
         assert book in response.context['books']
 
+    # Generated with AI, reviewed and modified
     def test_book_detail_page(self, client):
         book = BookFactory()
 
@@ -49,10 +58,12 @@ class TestBookPages:
 @pytest.mark.django_db
 class TestCartFlow:
 
+    # Generated with AI, reviewed and modified
     def test_cart_page(self, client):
         response = client.get(reverse('books:cart_detail'))
         assert response.status_code == 200
 
+    # Generated with AI, reviewed and modified
     def test_add_book_to_cart(self, client):
         book = BookFactory()
 
@@ -65,6 +76,7 @@ class TestCartFlow:
         session = client.session
         assert str(book.id) in session['cart']
 
+    # Generated with AI, reviewed and modified
     def test_remove_book_from_cart(self, client):
         book = BookFactory()
 
@@ -77,6 +89,7 @@ class TestCartFlow:
         assert response.status_code == 302
         assert str(book.id) not in client.session['cart']
 
+    # Generated with AI, reviewed and modified
     def test_clear_cart(self, client):
         book = BookFactory()
 
@@ -91,6 +104,7 @@ class TestCartFlow:
 @pytest.mark.django_db
 class TestOrderFlow:
 
+    # Generated with AI, reviewed and modified
     @patch('books.views.send_mail')
     def test_create_order(self, mock_send_mail, client):
         book = BookFactory()
@@ -111,24 +125,28 @@ class TestOrderFlow:
         assert Order.objects.count() == 1
         assert OrderItem.objects.count() == 1
 
+    # Generated with AI, reviewed and modified
     @patch('books.views.send_mail')
-    def test_order_sends_email(self, mock_send_mail, client):
+    def test_order_sends_email(self, mock_send_mail, client, django_capture_on_commit_callbacks):
         book = BookFactory()
 
         client.get(reverse('books:cart_add', args=[book.id]))
 
-        client.post(
-            reverse('books:order_create'),
-            {
-                'first_name': 'John',
-                'last_name': 'Smith',
-                'email': 'john@example.com',
-                'address': 'Test Street 1',
-            },
-        )
+        with django_capture_on_commit_callbacks(execute=True):
+            response = client.post(
+                reverse('books:order_create'),
+                {
+                    'first_name': 'John',
+                    'last_name': 'Smith',
+                    'email': 'john@example.com',
+                    'address': 'Test Street 1',
+                },
+            )
 
+        assert response.status_code == 200
         mock_send_mail.assert_called_once()
 
+    # Generated with AI, reviewed and modified
     @patch('books.views.send_mail')
     def test_cart_cleared_after_order(self, mock_send_mail, client):
         book = BookFactory()
@@ -151,6 +169,7 @@ class TestOrderFlow:
 @pytest.mark.django_db
 class TestPaymentFlow:
 
+    # Generated with AI, reviewed and modified
     @patch('books.views.stripe.checkout.Session.create')
     def test_payment_process_redirects_to_stripe(
         self,
@@ -158,6 +177,7 @@ class TestPaymentFlow:
         client,
     ):
         order = OrderFactory()
+        OrderItemFactory(order=order)
 
         mock_stripe_create.return_value = SimpleNamespace(
             url='https://example.com/checkout'
@@ -171,6 +191,7 @@ class TestPaymentFlow:
         assert response.url == 'https://example.com/checkout'
         mock_stripe_create.assert_called_once()
 
+    # Generated with AI, reviewed and modified
     @patch('books.views.stripe.checkout.Session.retrieve')
     def test_successful_payment_marks_order_paid(
         self,
@@ -178,10 +199,13 @@ class TestPaymentFlow:
         client,
     ):
         order = OrderFactory(paid=False)
+        OrderItemFactory(order=order)
 
         mock_retrieve.return_value = SimpleNamespace(
             payment_status='paid',
             metadata={'order_id': str(order.id)},
+            amount_total=10000,
+            currency='usd',
         )
 
         response = client.get(
@@ -194,6 +218,7 @@ class TestPaymentFlow:
         order.refresh_from_db()
         assert order.paid is True
 
+    # Generated with AI, reviewed and modified
     def test_payment_cancel_page(self, client):
         response = client.get(reverse('books:payment_cancel'))
         assert response.status_code == 200
@@ -202,6 +227,7 @@ class TestPaymentFlow:
 @pytest.mark.django_db
 class TestAsyncViews:
 
+    # Generated with AI, reviewed and modified
     def test_async_book_count(self, client):
         BookFactory.create_batch(3)
 
