@@ -6,3 +6,8 @@ pytest
 pytest-django
 pytest-cov
 factory-boy
+djangorestframework==3.18.3
+djangorestframework-simplejwt==5.5.1
+django-filter==26.2
+drf-spectacular==0.30.0
+django-cors-headers==4.9.0
