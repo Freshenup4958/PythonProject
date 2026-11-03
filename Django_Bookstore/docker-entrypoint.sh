@@ -31,12 +31,13 @@ while True:
         time.sleep(2)
 PY
 
-echo "Applying migrations..."
-python manage.py migrate --noinput
+if [ "${RUN_MIGRATIONS:-0}" = "1" ]; then
+    echo "Applying migrations..."
+    python manage.py migrate --noinput
 
-echo "Collecting static files..."
-python manage.py collectstatic --noinput
+    echo "Collecting static files..."
+    python manage.py collectstatic --noinput
+fi
 
-echo "Starting Django..."
-
+echo "Starting application..."
 exec "$@"

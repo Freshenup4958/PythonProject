@@ -1,3 +1,4 @@
+
 FROM python:3.14-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -15,4 +16,4 @@ RUN chmod +x /app/docker-entrypoint.sh
 
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["gunicorn", "bookstore.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]

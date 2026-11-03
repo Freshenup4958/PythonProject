@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 import os
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,7 +46,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'corsheaders',
 
-    'books',
+    'books.apps.BooksConfig',
     'accounts',
     'debug_toolbar',
 ]
@@ -228,3 +229,51 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
 ]
+
+# Redis cache configuration
+REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
+REDIS_PORT = os.getenv('REDIS_PORT', '6379')
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+        'KEY_PREFIX': 'bookstore',
+        'TIMEOUT': 300,
+    }
+}
+CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/0'
+CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}/0'
+
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_BEAT_SCHEDULE = {
+    'generate-books-report-daily': {
+        'task': 'books.tasks.generate_books_report',
+        'schedule': crontab(hour=2, minute=0),
+    },
+
+    'cleanup-expired-sessions-daily': {
+        'task': 'books.tasks.cleanup_expired_sessions',
+        'schedule': crontab(hour=3, minute=0),
+    },
+}
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+SENTRY_DSN = os.getenv('SENTRY_DSN', '')
+
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[
+            DjangoIntegration(),
+        ],
+        traces_sample_rate=0.1,
+        send_default_pii=False,
+    )

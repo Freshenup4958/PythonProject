@@ -20,6 +20,7 @@ from books.models import OrderItem
 from .serializers import OrderCreateSerializer
 
 
+
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.select_related('category').all()
     serializer_class = BookSerializer

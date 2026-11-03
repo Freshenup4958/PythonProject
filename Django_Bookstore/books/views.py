@@ -4,7 +4,7 @@ import logging
 import stripe
 from django.conf import settings
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.core.mail import send_mail
+from .tasks import send_order_email
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -19,11 +19,13 @@ from django.views.generic import (
 from .cart import Cart
 from .forms import OrderCreateForm
 from .models import Book, Category, Order, OrderItem
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 
 logger = logging.getLogger('books')
 
-
+@method_decorator(cache_page(300, key_prefix='book_catalog'), name='dispatch')
 class BookListView(ListView):
     """Відображає каталог книг із фільтрацією та пагінацією."""
 
@@ -55,7 +57,7 @@ class BookListView(ListView):
         context['selected_category'] = self.request.GET.get('category')
         return context
 
-
+@method_decorator(cache_page(300, key_prefix='book_detail'), name='dispatch')
 class BookDetailView(DetailView):
     """Відображає детальну інформацію про вибрану книгу."""
 
@@ -161,19 +163,8 @@ def order_create(request):
                         quantity=item['quantity'],
                     )
 
-                total_cost = order.get_total_cost()
-
                 transaction.on_commit(
-                    lambda: send_mail(
-                        subject=f'Замовлення #{order.id} створено',
-                        message=(
-                            f'Дякуємо за ваше замовлення!\n\n'
-                            f'Номер замовлення: #{order.id}\n'
-                            f'Загальна сума: ${total_cost}'
-                        ),
-                        from_email=None,
-                        recipient_list=[order.email],
-                    )
+                    lambda order_id=order.id: send_order_email.delay(order_id)
                 )
 
             cart.clear()
