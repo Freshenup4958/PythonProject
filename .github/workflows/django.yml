@@ -87,6 +87,12 @@ jobs:
         with:
           name: coverage-report
           path: Django_Bookstore/coverage.xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: Django_Bookstore/coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
 
 
   docker:

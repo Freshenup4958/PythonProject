@@ -1,6 +1,6 @@
 
 # Django Bookstore
-
+[![Django CI](https://github.com/Freshenup4958/PythonProject/actions/workflows/django.yml/badge.svg)](https://github.com/Freshenup4958/PythonProject/actions/workflows/django.yml)
 Django Bookstore - навчальний вебзастосунок інтернет-магазину книг, розроблений на Python та Django.
 
 Проєкт реалізує каталог книг, категорії, авторизацію користувачів, кошик покупок, оформлення замовлень та тестову оплату через Stripe.
