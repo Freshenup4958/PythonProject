@@ -1,4 +1,3 @@
-
 import logging
 
 import stripe
@@ -22,83 +21,92 @@ from .models import Book, Category, Order, OrderItem
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
+logger = logging.getLogger("books")
 
-logger = logging.getLogger('books')
 
-@method_decorator(cache_page(300, key_prefix='book_catalog'), name='dispatch')
+@method_decorator(cache_page(300, key_prefix="book_catalog"), name="dispatch")
 class BookListView(ListView):
     """Відображає каталог книг із фільтрацією та пагінацією."""
 
     model = Book
-    template_name = 'books/book_list.html'
-    context_object_name = 'books'
+    template_name = "books/book_list.html"
+    context_object_name = "books"
     paginate_by = 3
 
     def get(self, request, *args, **kwargs):
         """Обробляє запит на перегляд каталогу книг."""
-        logger.info('Book list page was opened')
+        logger.info("Book list page was opened")
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         """Повертає книги з урахуванням вибраної категорії."""
         queryset = super().get_queryset()
-        category = self.request.GET.get('category')
+        category = self.request.GET.get("category")
 
         if category:
             queryset = queryset.filter(category_id=category)
 
-        queryset = queryset.order_by('id')
+        queryset = queryset.order_by("id")
         return queryset
 
     def get_context_data(self, **kwargs):
         """Додає категорії та вибраний фільтр до контексту."""
         context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
-        context['selected_category'] = self.request.GET.get('category')
+        context["categories"] = Category.objects.all()
+        context["selected_category"] = self.request.GET.get("category")
         return context
 
-@method_decorator(cache_page(300, key_prefix='book_detail'), name='dispatch')
+
+@method_decorator(cache_page(300, key_prefix="book_detail"), name="dispatch")
 class BookDetailView(DetailView):
     """Відображає детальну інформацію про вибрану книгу."""
 
     model = Book
-    template_name = 'books/book_detail.html'
-    context_object_name = 'book'
+    template_name = "books/book_detail.html"
+    context_object_name = "book"
 
 
 class BookCreateView(PermissionRequiredMixin, CreateView):
     """Дозволяє користувачам із відповідними правами додавати книги."""
 
     model = Book
-    template_name = 'books/book_form.html'
+    template_name = "books/book_form.html"
     fields = [
-        'category', 'title', 'author',
-        'price', 'description', 'stock',
+        "category",
+        "title",
+        "author",
+        "price",
+        "description",
+        "stock",
     ]
-    success_url = '/'
-    permission_required = 'books.add_book'
+    success_url = "/"
+    permission_required = "books.add_book"
 
 
 class BookUpdateView(PermissionRequiredMixin, UpdateView):
     """Дозволяє користувачам із відповідними правами редагувати книги."""
 
     model = Book
-    template_name = 'books/book_form.html'
+    template_name = "books/book_form.html"
     fields = [
-        'category', 'title', 'author',
-        'price', 'description', 'stock',
+        "category",
+        "title",
+        "author",
+        "price",
+        "description",
+        "stock",
     ]
-    success_url = '/'
-    permission_required = 'books.change_book'
+    success_url = "/"
+    permission_required = "books.change_book"
 
 
 class BookDeleteView(PermissionRequiredMixin, DeleteView):
     """Дозволяє користувачам із відповідними правами видаляти книги."""
 
     model = Book
-    template_name = 'books/book_confirm_delete.html'
-    success_url = '/'
-    permission_required = 'books.delete_book'
+    template_name = "books/book_confirm_delete.html"
+    success_url = "/"
+    permission_required = "books.delete_book"
 
 
 def cart_detail(request):
@@ -107,8 +115,8 @@ def cart_detail(request):
 
     return render(
         request,
-        'books/cart_detail.html',
-        {'cart': cart},
+        "books/cart_detail.html",
+        {"cart": cart},
     )
 
 
@@ -119,7 +127,7 @@ def cart_add(request, book_id):
 
     cart.add(book=book)
 
-    return redirect('books:cart_detail')
+    return redirect("books:cart_detail")
 
 
 def cart_remove(request, book_id):
@@ -129,7 +137,7 @@ def cart_remove(request, book_id):
 
     cart.remove(book)
 
-    return redirect('books:cart_detail')
+    return redirect("books:cart_detail")
 
 
 def cart_clear(request):
@@ -137,7 +145,7 @@ def cart_clear(request):
     cart = Cart(request)
     cart.clear()
 
-    return redirect('books:cart_detail')
+    return redirect("books:cart_detail")
 
 
 # Generated with AI, reviewed and modified
@@ -145,9 +153,9 @@ def order_create(request):
     """Створює замовлення з кошика та надсилає підтвердження."""
     cart = Cart(request)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         if len(cart) == 0:
-            return redirect('books:cart_detail')
+            return redirect("books:cart_detail")
 
         form = OrderCreateForm(request.POST)
 
@@ -158,9 +166,9 @@ def order_create(request):
                 for item in cart:
                     OrderItem.objects.create(
                         order=order,
-                        book=item['book'],
-                        price=item['price'],
-                        quantity=item['quantity'],
+                        book=item["book"],
+                        price=item["price"],
+                        quantity=item["quantity"],
                     )
 
                 transaction.on_commit(
@@ -171,16 +179,16 @@ def order_create(request):
 
             return render(
                 request,
-                'books/order_created.html',
-                {'order': order},
+                "books/order_created.html",
+                {"order": order},
             )
     else:
         form = OrderCreateForm()
 
     return render(
         request,
-        'books/order_create.html',
-        {'cart': cart, 'form': form},
+        "books/order_create.html",
+        {"cart": cart, "form": form},
     )
 
 
@@ -190,25 +198,25 @@ def payment_process(request, order_id):
     order = get_object_or_404(Order, id=order_id)
 
     if order.paid:
-        return redirect('books:payment_success')
+        return redirect("books:payment_success")
 
-    items = list(order.items.select_related('book'))
+    items = list(order.items.select_related("book"))
 
     if not items:
-        return redirect('books:cart_detail')
+        return redirect("books:cart_detail")
 
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
     line_items = [
         {
-            'price_data': {
-                'currency': 'usd',
-                'product_data': {
-                    'name': item.book.title,
+            "price_data": {
+                "currency": "usd",
+                "product_data": {
+                    "name": item.book.title,
                 },
-                'unit_amount': int(item.price * 100),
+                "unit_amount": int(item.price * 100),
             },
-            'quantity': item.quantity,
+            "quantity": item.quantity,
         }
         for item in items
     ]
@@ -216,21 +224,17 @@ def payment_process(request, order_id):
     try:
         checkout_session = stripe.checkout.Session.create(
             line_items=line_items,
-            mode='payment',
+            mode="payment",
             success_url=(
-                request.build_absolute_uri(
-                    reverse('books:payment_success')
-                )
-                + '?session_id={CHECKOUT_SESSION_ID}'
+                request.build_absolute_uri(reverse("books:payment_success"))
+                + "?session_id={CHECKOUT_SESSION_ID}"
             ),
-            cancel_url=request.build_absolute_uri(
-                reverse('books:payment_cancel')
-            ),
-            metadata={'order_id': str(order.id)},
+            cancel_url=request.build_absolute_uri(reverse("books:payment_cancel")),
+            metadata={"order_id": str(order.id)},
         )
     except stripe.StripeError:
-        logger.exception('Stripe Checkout Session creation failed')
-        return redirect('books:cart_detail')
+        logger.exception("Stripe Checkout Session creation failed")
+        return redirect("books:cart_detail")
 
     return redirect(checkout_session.url)
 
@@ -238,52 +242,52 @@ def payment_process(request, order_id):
 # Generated with AI, reviewed and modified
 def payment_success(request):
     """Перевіряє Stripe-сесію та підтверджує оплату замовлення."""
-    session_id = request.GET.get('session_id')
+    session_id = request.GET.get("session_id")
 
     if not session_id:
-        return redirect('books:payment_cancel')
+        return redirect("books:payment_cancel")
 
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
     try:
         checkout_session = stripe.checkout.Session.retrieve(session_id)
     except stripe.StripeError:
-        logger.exception('Stripe payment verification failed')
-        return redirect('books:payment_cancel')
+        logger.exception("Stripe payment verification failed")
+        return redirect("books:payment_cancel")
 
-    if checkout_session.payment_status != 'paid':
-        return redirect('books:payment_cancel')
+    if checkout_session.payment_status != "paid":
+        return redirect("books:payment_cancel")
 
     metadata = checkout_session.metadata or {}
-    order_id = metadata.get('order_id')
+    order_id = metadata.get("order_id")
 
     if not order_id:
-        return redirect('books:payment_cancel')
+        return redirect("books:payment_cancel")
 
     order = Order.objects.filter(id=order_id).first()
 
     if order is None:
-        return redirect('books:payment_cancel')
+        return redirect("books:payment_cancel")
 
     expected_amount = int(order.get_total_cost() * 100)
 
     if (
         checkout_session.amount_total != expected_amount
-        or checkout_session.currency != 'usd'
+        or checkout_session.currency != "usd"
     ):
-        logger.warning('Stripe payment amount or currency mismatch')
-        return redirect('books:payment_cancel')
+        logger.warning("Stripe payment amount or currency mismatch")
+        return redirect("books:payment_cancel")
 
     if not order.paid:
         order.paid = True
-        order.save(update_fields=['paid'])
+        order.save(update_fields=["paid"])
 
-    return render(request, 'books/payment_success.html')
+    return render(request, "books/payment_success.html")
 
 
 def payment_cancel(request):
     """Відображає сторінку скасованої оплати."""
-    return render(request, 'books/payment_cancel.html')
+    return render(request, "books/payment_cancel.html")
 
 
 async def async_book_count(request):
@@ -292,19 +296,19 @@ async def async_book_count(request):
 
     return render(
         request,
-        'books/async_book_count.html',
-        {'count': count},
+        "books/async_book_count.html",
+        {"count": count},
     )
 
 
 async def async_book_detail(request, book_id):
     """Асинхронно отримує детальну інформацію про книгу."""
-    book = await Book.objects.select_related('category').aget(id=book_id)
+    book = await Book.objects.select_related("category").aget(id=book_id)
 
     return render(
         request,
-        'books/async_book_detail.html',
-        {'book': book},
+        "books/async_book_detail.html",
+        {"book": book},
     )
 
 
@@ -314,6 +318,6 @@ async def async_order_count(request):
 
     return render(
         request,
-        'books/async_order_count.html',
-        {'count': count},
+        "books/async_order_count.html",
+        {"count": count},
     )

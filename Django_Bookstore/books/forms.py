@@ -8,15 +8,15 @@ class OrderCreateForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = [
-            'first_name',
-            'last_name',
-            'email',
-            'address',
+            "first_name",
+            "last_name",
+            "email",
+            "address",
         ]
 
         labels = {
-            'first_name': _('First name'),
-            'last_name': _('Last name'),
-            'email': _('Email'),
-            'address': _('Address'),
+            "first_name": _("First name"),
+            "last_name": _("Last name"),
+            "email": _("Email"),
+            "address": _("Address"),
         }

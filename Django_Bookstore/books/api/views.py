@@ -1,4 +1,3 @@
-
 from rest_framework import permissions, viewsets
 
 from books.models import Book, Category
@@ -20,18 +19,17 @@ from books.models import OrderItem
 from .serializers import OrderCreateSerializer
 
 
-
 class BookViewSet(viewsets.ModelViewSet):
-    queryset = Book.objects.select_related('category').all()
+    queryset = Book.objects.select_related("category").all()
     serializer_class = BookSerializer
 
-    filterset_fields = ['category', 'author']
-    search_fields = ['title', 'author', 'description']
-    ordering_fields = ['price', 'title', 'stock', 'id']
-    ordering = ['id']
+    filterset_fields = ["category", "author"]
+    search_fields = ["title", "author", "description"]
+    ordering_fields = ["price", "title", "stock", "id"]
+    ordering = ["id"]
 
     def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
+        if self.action in ["list", "retrieve"]:
             return [permissions.AllowAny()]
         return [permissions.IsAdminUser()]
 
@@ -40,13 +38,13 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-    filterset_fields = ['slug']
-    search_fields = ['name']
-    ordering_fields = ['name', 'id']
-    ordering = ['id']
+    filterset_fields = ["slug"]
+    search_fields = ["name"]
+    ordering_fields = ["name", "id"]
+    ordering = ["id"]
 
     def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
+        if self.action in ["list", "retrieve"]:
             return [permissions.AllowAny()]
         return [permissions.IsAdminUser()]
 
@@ -59,29 +57,33 @@ class CartViewSet(viewsets.ViewSet):
 
         items = []
         for item in cart:
-            book = item['book']
-            items.append({
-                'book_id': book.id,
-                'title': book.title,
-                'quantity': item['quantity'],
-                'price': str(item['price']),
-                'total_price': str(item['total_price']),
-            })
+            book = item["book"]
+            items.append(
+                {
+                    "book_id": book.id,
+                    "title": book.title,
+                    "quantity": item["quantity"],
+                    "price": str(item["price"]),
+                    "total_price": str(item["total_price"]),
+                }
+            )
 
-        return Response({
-            'items': items,
-            'total_quantity': len(cart),
-            'total_price': str(cart.get_total_price()),
-        })
+        return Response(
+            {
+                "items": items,
+                "total_quantity": len(cart),
+                "total_price": str(cart.get_total_price()),
+            }
+        )
 
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=["post"])
     def add(self, request):
         serializer = CartAddSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        book = serializer.validated_data['book']
-        quantity = serializer.validated_data['quantity']
-        override_quantity = serializer.validated_data['override_quantity']
+        book = serializer.validated_data["book"]
+        quantity = serializer.validated_data["quantity"]
+        override_quantity = serializer.validated_data["override_quantity"]
 
         cart = Cart(request)
         cart.add(
@@ -91,14 +93,14 @@ class CartViewSet(viewsets.ViewSet):
         )
 
         return Response(
-            {'message': 'Book added to cart'},
+            {"message": "Book added to cart"},
             status=status.HTTP_200_OK,
         )
 
     @action(
         detail=False,
-        methods=['delete'],
-        url_path=r'remove/(?P<book_id>[0-9]+)',
+        methods=["delete"],
+        url_path=r"remove/(?P<book_id>[0-9]+)",
     )
     def remove(self, request, book_id=None):
         book = get_object_or_404(Book, pk=book_id)
@@ -106,11 +108,11 @@ class CartViewSet(viewsets.ViewSet):
         cart.remove(book)
 
         return Response(
-            {'message': 'Book removed from cart'},
+            {"message": "Book removed from cart"},
             status=status.HTTP_200_OK,
         )
 
-    @action(detail=False, methods=['delete'])
+    @action(detail=False, methods=["delete"])
     def clear(self, request):
         cart = Cart(request)
 
@@ -118,7 +120,7 @@ class CartViewSet(viewsets.ViewSet):
             cart.clear()
 
         return Response(
-            {'message': 'Cart cleared'},
+            {"message": "Cart cleared"},
             status=status.HTTP_200_OK,
         )
 
@@ -129,18 +131,17 @@ class OrderViewSet(viewsets.ModelViewSet):
         permissions.IsAuthenticated,
         IsOwnerOrReadOnly,
     ]
-    http_method_names = ['get', 'post', 'head', 'options']
+    http_method_names = ["get", "post", "head", "options"]
 
     def get_queryset(self):
         return (
-            Order.objects
-            .filter(user=self.request.user)
-            .prefetch_related('items__book__category')
-            .order_by('-created')
+            Order.objects.filter(user=self.request.user)
+            .prefetch_related("items__book__category")
+            .order_by("-created")
         )
 
     def get_serializer_class(self):
-        if self.action == 'create':
+        if self.action == "create":
             return OrderCreateSerializer
         return OrderSerializer
 
@@ -151,37 +152,27 @@ class OrderViewSet(viewsets.ModelViewSet):
         cart = Cart(request)
 
         if not cart.cart:
-            raise ValidationError({
-                'cart': 'Cart is empty.'
-            })
+            raise ValidationError({"cart": "Cart is empty."})
 
         with transaction.atomic():
             book_ids = list(cart.cart.keys())
 
-            books = Book.objects.select_for_update().filter(
-                id__in=book_ids
-            )
-            books_by_id = {
-                str(book.id): book for book in books
-            }
+            books = Book.objects.select_for_update().filter(id__in=book_ids)
+            books_by_id = {str(book.id): book for book in books}
 
             order_items = []
 
             for book_id, cart_item in cart.cart.items():
                 book = books_by_id.get(book_id)
-                quantity = cart_item['quantity']
+                quantity = cart_item["quantity"]
 
                 if book is None:
-                    raise ValidationError({
-                        'cart': f'Book {book_id} does not exist.'
-                    })
+                    raise ValidationError({"cart": f"Book {book_id} does not exist."})
 
                 if quantity < 1 or book.stock < quantity:
-                    raise ValidationError({
-                        'cart': (
-                            f'Not enough stock for "{book.title}".'
-                        )
-                    })
+                    raise ValidationError(
+                        {"cart": (f'Not enough stock for "{book.title}".')}
+                    )
 
                 order_items.append((book, quantity))
 
@@ -196,13 +187,13 @@ class OrderViewSet(viewsets.ModelViewSet):
                 )
 
                 book.stock -= quantity
-                book.save(update_fields=['stock'])
+                book.save(update_fields=["stock"])
 
         cart.clear()
 
         response_serializer = OrderSerializer(
             order,
-            context={'request': request},
+            context={"request": request},
         )
 
         return Response(

@@ -11,7 +11,7 @@ from tests.factories import (
     OrderFactory,
     OrderItemFactory,
 )
-
+from django.core.cache import cache
 
 @pytest.mark.django_db
 class TestBookPages:
@@ -22,13 +22,16 @@ class TestBookPages:
         assert response.status_code == 200
 
     # Generated with AI, reviewed and modified
-    def test_book_list_displays_book(self, client):
-        book = BookFactory(title='Integration Test Book')
 
-        response = client.get(reverse('books:book_list'))
+    def test_book_list_displays_book(self, client):
+        book = BookFactory(title="Integration Test Book")
+
+        cache.clear()
+
+        response = client.get(reverse("books:book_list"))
 
         assert response.status_code == 200
-        assert 'Integration Test Book' in response.content.decode()
+        assert "Integration Test Book" in response.content.decode()
 
     # Generated with AI, reviewed and modified
     def test_book_list_filter_by_category(self, client):
@@ -105,8 +108,8 @@ class TestCartFlow:
 class TestOrderFlow:
 
     # Generated with AI, reviewed and modified
-    @patch('books.views.send_mail')
-    def test_create_order(self, mock_send_mail, client):
+    @patch('books.views.send_order_email.delay')
+    def test_create_order(self, mock_send_email, client):
         book = BookFactory()
 
         client.get(reverse('books:cart_add', args=[book.id]))
@@ -126,8 +129,8 @@ class TestOrderFlow:
         assert OrderItem.objects.count() == 1
 
     # Generated with AI, reviewed and modified
-    @patch('books.views.send_mail')
-    def test_order_sends_email(self, mock_send_mail, client, django_capture_on_commit_callbacks):
+    @patch('books.views.send_order_email.delay')
+    def test_order_sends_email(self, mock_send_email, client, django_capture_on_commit_callbacks):
         book = BookFactory()
 
         client.get(reverse('books:cart_add', args=[book.id]))
@@ -144,11 +147,11 @@ class TestOrderFlow:
             )
 
         assert response.status_code == 200
-        mock_send_mail.assert_called_once()
+        mock_send_email.assert_called_once()
 
     # Generated with AI, reviewed and modified
-    @patch('books.views.send_mail')
-    def test_cart_cleared_after_order(self, mock_send_mail, client):
+    @patch('books.views.send_order_email.delay')
+    def test_cart_cleared_after_order(self, mock_send_email, client):
         book = BookFactory()
 
         client.get(reverse('books:cart_add', args=[book.id]))

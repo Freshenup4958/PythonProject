@@ -9,17 +9,18 @@ class BookInline(admin.TabularInline):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug')
-    search_fields = ('name',)
-    prepopulated_fields = {'slug': ('name',)}
+    list_display = ("name", "slug")
+    search_fields = ("name",)
+    prepopulated_fields = {"slug": ("name",)}
     inlines = [BookInline]
 
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'category', 'price', 'stock')
-    list_filter = ('category', 'author')
-    search_fields = ('title', 'author')
+    list_display = ("title", "author", "category", "price", "stock")
+    list_filter = ("category", "author")
+    search_fields = ("title", "author")
+
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
@@ -29,14 +30,13 @@ class OrderItemInline(admin.TabularInline):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
-        'id',
-        'first_name',
-        'last_name',
-        'email',
-        'created',
-        'paid',
+        "id",
+        "first_name",
+        "last_name",
+        "email",
+        "created",
+        "paid",
     )
-    list_filter = ('paid', 'created')
-    search_fields = ('first_name', 'last_name', 'email')
+    list_filter = ("paid", "created")
+    search_fields = ("first_name", "last_name", "email")
     inlines = [OrderItemInline]
-

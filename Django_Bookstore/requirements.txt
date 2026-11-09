@@ -16,3 +16,6 @@ celery
 redis
 gunicorn
 sentry-sdk
+flake8
+black
+whitenoise
