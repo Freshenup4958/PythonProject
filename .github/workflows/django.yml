@@ -70,6 +70,9 @@ jobs:
       - name: Check Django
         run: python manage.py check
 
+      - name: Collect static files
+        run: python manage.py collectstatic --noinput
+
       - name: Run tests with coverage
         run: >
           python -m pytest
