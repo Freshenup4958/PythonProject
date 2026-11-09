@@ -19,3 +19,4 @@ sentry-sdk
 flake8
 black
 whitenoise
+dj-database-url

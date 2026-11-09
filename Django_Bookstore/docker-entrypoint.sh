@@ -8,21 +8,22 @@ import os
 import time
 import psycopg
 
-host = os.getenv("POSTGRES_HOST", "db")
-port = os.getenv("POSTGRES_PORT", "5432")
-dbname = os.getenv("POSTGRES_DB", "bookstore")
-user = os.getenv("POSTGRES_USER", "bookstore_user")
-password = os.getenv("POSTGRES_PASSWORD", "bookstore_password")
+
+database_url = os.getenv("DATABASE_URL")
 
 while True:
     try:
-        connection = psycopg.connect(
-            host=host,
-            port=port,
-            dbname=dbname,
-            user=user,
-            password=password,
-        )
+        if database_url:
+            connection = psycopg.connect(database_url)
+        else:
+            connection = psycopg.connect(
+                host=os.getenv("POSTGRES_HOST", "db"),
+                port=os.getenv("POSTGRES_PORT", "5432"),
+                dbname=os.getenv("POSTGRES_DB", "bookstore"),
+                user=os.getenv("POSTGRES_USER", "bookstore_user"),
+                password=os.getenv("POSTGRES_PASSWORD", "bookstore_password"),
+            )
+
         connection.close()
         print("PostgreSQL is ready.")
         break

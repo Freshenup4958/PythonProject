@@ -16,4 +16,8 @@ RUN chmod +x /app/docker-entrypoint.sh
 
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
-CMD ["gunicorn", "bookstore.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
+
+ENV PORT=8000
+
+CMD ["sh", "-c", "exec gunicorn bookstore.wsgi:application --bind 0.0.0.0:${PORT} --workers 3"]
+
