@@ -1,6 +1,11 @@
 
+
 # Django Bookstore
+
 [![Django CI](https://github.com/Freshenup4958/PythonProject/actions/workflows/django.yml/badge.svg)](https://github.com/Freshenup4958/PythonProject/actions/workflows/django.yml)
+
+[![codecov](https://codecov.io/gh/Freshenup4958/PythonProject/graph/badge.svg?branch=main)](https://codecov.io/gh/Freshenup4958/PythonProject)
+
 Django Bookstore - навчальний вебзастосунок інтернет-магазину книг, розроблений на Python та Django.
 
 Проєкт реалізує каталог книг, категорії, авторизацію користувачів, кошик покупок, оформлення замовлень та тестову оплату через Stripe.
@@ -84,7 +89,7 @@ pytest --cov=books --cov=accounts --cov-report=term-missing
 - 20 unit-тестів.
 - 15 integration-тестів.
 
-Покриття коду становило 94%.
+За результатами останнього запуску CI покриття коду становило 90,47% (513 із 567 рядків). Актуальне покриття відображається на бейджі Codecov.
 
 Зовнішні сервіси Stripe та email тестуються з використанням mock-об'єктів.
 
