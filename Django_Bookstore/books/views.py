@@ -20,6 +20,8 @@ from .forms import OrderCreateForm
 from .models import Book, Category, Order, OrderItem
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.http import JsonResponse
+from .warehouse_client import get_book_stock
 
 logger = logging.getLogger("books")
 
@@ -321,3 +323,28 @@ async def async_order_count(request):
         "books/async_order_count.html",
         {"count": count},
     )
+
+def book_stock_api(request, book_id):
+    """Повертає залишки книги зі складського сервісу."""
+    if request.method != "GET":
+        return JsonResponse(
+            {"error": "Method not allowed"},
+            status=405,
+        )
+
+    book = get_object_or_404(Book, id=book_id)
+    stock = get_book_stock(book.id)
+
+    if stock is None:
+        return JsonResponse(
+            {"error": "Warehouse service unavailable"},
+            status=503,
+        )
+
+    return JsonResponse({
+        "book_id": book.id,
+        "title": book.title,
+        "quantity": stock["quantity"],
+        "reserved": stock["reserved"],
+        "available": stock["available"],
+    })

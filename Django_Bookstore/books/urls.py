@@ -37,4 +37,5 @@ urlpatterns = [
         "async/book/<int:book_id>/", views.async_book_detail, name="async_book_detail"
     ),
     path("async/order-count/", views.async_order_count, name="async_order_count"),
+    path("api/books/<int:book_id>/stock/", views.book_stock_api, name="book_stock_api"),
 ]

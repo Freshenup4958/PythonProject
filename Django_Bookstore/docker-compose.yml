@@ -28,9 +28,13 @@ services:
     env_file:
       - .env
     environment:
-      REDIS_HOST: redis
-      REDIS_PORT: "6379"
-      RUN_MIGRATIONS: "1"
+        REDIS_HOST: redis
+        REDIS_PORT: "6379"
+        RUN_MIGRATIONS: "1"
+        WAREHOUSE_API_URL: "http://host.docker.internal:8001/api"
+        WAREHOUSE_USERNAME: "bookstore_service"
+        WAREHOUSE_PASSWORD: "${WAREHOUSE_PASSWORD}"
+
     expose:
       - "8000"
     volumes:
