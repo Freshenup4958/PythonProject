@@ -1,0 +1,44 @@
+
+name: Warehouse CI
+
+on:
+  push:
+    paths:
+      - "Warehouse_Service/**"
+      - ".github/workflows/warehouse-ci.yml"
+  pull_request:
+    paths:
+      - "Warehouse_Service/**"
+      - ".github/workflows/warehouse-ci.yml"
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: Warehouse_Service
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+          cache-dependency-path: Warehouse_Service/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run migrations
+        env:
+          DJANGO_SECRET_KEY: ci-test-secret-key
+        run: python manage.py migrate --noinput
+
+      - name: Run tests with coverage
+        env:
+          DJANGO_SECRET_KEY: ci-test-secret-key
+        run: pytest inventory/tests.py -v --cov=inventory --cov-report=term-missing --cov-fail-under=70

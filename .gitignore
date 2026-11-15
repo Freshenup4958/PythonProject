@@ -1,0 +1,7 @@
+
+# Warehouse local secrets and data
+/Warehouse_Service/.env
+/Warehouse_Service/db.sqlite3
+/Warehouse_Service/**/__pycache__/
+
+/Warehouse_Service/warehouse_data.json
