@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-only-change-me")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DJANGO_DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = os.getenv(
     "DJANGO_ALLOWED_HOSTS",
@@ -233,4 +233,27 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "API для управления складскими остатками книг.",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
+}
+
+# Настройки безопасности для HTTPS
+SECURE_SSL_REDIRECT = os.getenv("DJANGO_SECURE_SSL_REDIRECT", "False").lower() == "true"
+
+SESSION_COOKIE_SECURE = os.getenv("DJANGO_HTTPS_ENABLED", "False").lower() == "true"
+CSRF_COOKIE_SECURE = SESSION_COOKIE_SECURE
+
+SECURE_HSTS_SECONDS = int(os.getenv("DJANGO_HSTS_SECONDS", "0"))
+
+
+# Почта через SMTP (Django 6.1)
+MAILERS = {
+    "default": {
+        "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+        "OPTIONS": {
+            "host": os.getenv("EMAIL_HOST", "localhost"),
+            "port": int(os.getenv("EMAIL_PORT", "587")),
+            "username": os.getenv("EMAIL_HOST_USER", ""),
+            "password": os.getenv("EMAIL_HOST_PASSWORD", ""),
+            "use_tls": True,
+        },
+    }
 }
