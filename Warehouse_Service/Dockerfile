@@ -16,6 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 8001
 
-CMD ["gunicorn", "warehouse.wsgi:application", "--bind", "0.0.0.0:8001"]
+EXPOSE 8001
+CMD ["sh", "-c", "python manage.py migrate --noinput && exec gunicorn warehouse.wsgi:application --bind 0.0.0.0:${PORT:-8001}"]
+
