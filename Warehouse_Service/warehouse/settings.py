@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 import os
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -78,18 +78,27 @@ WSGI_APPLICATION = 'warehouse.wsgi.application'
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 
+
 database_url = os.getenv("DATABASE_URL")
 
 if database_url:
     db = urlparse(database_url)
+
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": db.path.lstrip("/"),
-            "USER": db.username,
-            "PASSWORD": db.password,
+            "NAME": unquote(db.path.lstrip("/")),
+            "USER": unquote(db.username or ""),
+            "PASSWORD": unquote(db.password or ""),
             "HOST": db.hostname,
             "PORT": db.port or 5432,
+            "OPTIONS": {
+                "sslmode": (
+                    "require"
+                    if db.hostname and db.hostname.endswith(".neon.tech")
+                    else "prefer"
+                ),
+            },
         }
     }
 else:
@@ -99,8 +108,6 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
@@ -177,12 +184,6 @@ STATIC_URL = 'static/'
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
-
 from datetime import timedelta
 
 REST_FRAMEWORK = {
@@ -242,6 +243,8 @@ SESSION_COOKIE_SECURE = os.getenv("DJANGO_HTTPS_ENABLED", "False").lower() == "t
 CSRF_COOKIE_SECURE = SESSION_COOKIE_SECURE
 
 SECURE_HSTS_SECONDS = int(os.getenv("DJANGO_HSTS_SECONDS", "0"))
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
 # Почта через SMTP (Django 6.1)
