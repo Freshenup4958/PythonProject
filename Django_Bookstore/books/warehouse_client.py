@@ -1,4 +1,3 @@
-
 import logging
 import os
 
@@ -39,7 +38,7 @@ def get_book_stock(book_id):
 
         return stock_response.json()
 
-    except (requests.RequestException, KeyError, ValueError):
+    except requests.RequestException, KeyError, ValueError:
         logger.exception(
             "Failed to fetch stock for book_id=%s",
             book_id,

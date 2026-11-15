@@ -324,6 +324,7 @@ async def async_order_count(request):
         {"count": count},
     )
 
+
 def book_stock_api(request, book_id):
     """Повертає залишки книги зі складського сервісу."""
     if request.method != "GET":
@@ -341,10 +342,12 @@ def book_stock_api(request, book_id):
             status=503,
         )
 
-    return JsonResponse({
-        "book_id": book.id,
-        "title": book.title,
-        "quantity": stock["quantity"],
-        "reserved": stock["reserved"],
-        "available": stock["available"],
-    })
+    return JsonResponse(
+        {
+            "book_id": book.id,
+            "title": book.title,
+            "quantity": stock["quantity"],
+            "reserved": stock["reserved"],
+            "available": stock["available"],
+        }
+    )
