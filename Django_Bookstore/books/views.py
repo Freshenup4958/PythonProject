@@ -212,7 +212,7 @@ def payment_process(request, order_id):
     line_items = [
         {
             "price_data": {
-                "currency": "usd",
+                "currency": "uah",
                 "product_data": {
                     "name": item.book.title,
                 },
