@@ -253,6 +253,13 @@ def payment_success(request):
 
     try:
         checkout_session = stripe.checkout.Session.retrieve(session_id)
+        logger.warning(
+            "Stripe session: payment_status=%s, currency=%s, amount=%s, metadata=%s",
+            checkout_session.payment_status,
+            checkout_session.currency,
+            checkout_session.amount_total,
+            dict(checkout_session.metadata or {}),
+        )
     except stripe.StripeError:
         logger.exception("Stripe payment verification failed")
         return redirect("books:payment_cancel")
@@ -260,8 +267,8 @@ def payment_success(request):
     if checkout_session.payment_status != "paid":
         return redirect("books:payment_cancel")
 
-    metadata = checkout_session.metadata or {}
-    order_id = dict(metadata).get("order_id")
+    metadata = checkout_session.metadata
+    order_id = dict(metadata).get("order_id") if metadata else None
 
     if not order_id:
         return redirect("books:payment_cancel")
