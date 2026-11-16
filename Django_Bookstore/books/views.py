@@ -260,8 +260,8 @@ def payment_success(request):
     if checkout_session.payment_status != "paid":
         return redirect("books:payment_cancel")
 
-    metadata = checkout_session.metadata
-    order_id = metadata.order_id if metadata else None
+    metadata = checkout_session.metadata or {}
+    order_id = dict(metadata).get("order_id")
 
     if not order_id:
         return redirect("books:payment_cancel")
