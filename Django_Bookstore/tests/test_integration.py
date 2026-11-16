@@ -208,7 +208,7 @@ class TestPaymentFlow:
             payment_status='paid',
             metadata={'order_id': str(order.id)},
             amount_total=10000,
-            currency='usd',
+            currency='uah',
         )
 
         response = client.get(

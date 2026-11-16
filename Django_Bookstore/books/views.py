@@ -274,8 +274,8 @@ def payment_success(request):
     expected_amount = int(order.get_total_cost() * 100)
 
     if (
-        checkout_session.amount_total != expected_amount
-        or checkout_session.currency != "usd"
+            checkout_session.amount_total != expected_amount
+            or checkout_session.currency.lower() != "uah"
     ):
         logger.warning("Stripe payment amount or currency mismatch")
         return redirect("books:payment_cancel")
