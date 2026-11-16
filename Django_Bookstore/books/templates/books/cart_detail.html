@@ -1,3 +1,4 @@
+
 {% extends "books/base.html" %}
 {% load i18n %}
 
@@ -5,66 +6,103 @@
 
 {% block content %}
 
-<div class="container mt-4">
+<section class="bookshop-cart">
 
-    <h1>{% translate "Shopping Cart" %}</h1>
+    <div class="bookshop-cart-heading">
+        <span class="bookshop-eyebrow">✦ BOOKSTORE COLLECTION</span>
+        <h1>{% translate "Shopping Cart" %}</h1>
+        <p>{% translate "Your selected books" %}</p>
+    </div>
 
     {% if cart %}
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>{% translate "Book" %}</th>
-                    <th>{% translate "Quantity" %}</th>
-                    <th>{% translate "Price" %}</th>
-                    <th>{% translate "Total" %}</th>
-                    <th>{% translate "Action" %}</th>
-                </tr>
-            </thead>
+        <div class="bookshop-cart-layout">
 
-            <tbody>
+            <div class="bookshop-cart-items">
+
                 {% for item in cart %}
-                    <tr>
-                        <td>{{ item.book.title }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>${{ item.price }}</td>
-                        <td>${{ item.total_price }}</td>
-                        <td>
-                            <a href="{% url 'books:cart_remove' item.book.id %}"
-                               class="btn btn-danger btn-sm">
-                                {% translate "Remove" %}
+                    <div class="bookshop-cart-item">
+
+                        <div class="bookshop-cart-thumbnail">
+                            📖
+                        </div>
+
+                        <div class="bookshop-cart-item-info">
+                            <span class="bookshop-card-label">BOOKSTORE</span>
+
+                            <h3>
+                                <a href="{% url 'books:book_detail' item.book.pk %}">
+                                    {{ item.book.title }}
+                                </a>
+                            </h3>
+
+                            <p>
+                                {% translate "Quantity" %}: {{ item.quantity }}
+                            </p>
+
+                            <a class="bookshop-cart-remove"
+                               href="{% url 'books:cart_remove' item.book.id %}">
+                                ✕ {% translate "Remove" %}
                             </a>
-                        </td>
-                    </tr>
+                        </div>
+
+                        <div class="bookshop-cart-item-price">
+                            <span>{% translate "Price" %}</span>
+                            <strong>{{ item.price }} ₴</strong>
+
+                            <span>{% translate "Total" %}</span>
+                            <strong>{{ item.total_price }} ₴</strong>
+                        </div>
+
+                    </div>
                 {% endfor %}
-            </tbody>
-        </table>
 
-        <h4>
-            {% translate "Total" %}: ${{ cart.get_total_price }}
-        </h4>
+                <a href="{% url 'books:book_list' %}"
+                   class="bookshop-cart-continue">
+                    ← {% translate "Continue shopping" %}
+                </a>
 
-        <a href="{% url 'books:order_create' %}"
-           class="btn btn-success mb-3">
-            {% translate "Checkout" %}
-        </a>
+            </div>
 
-        <a href="{% url 'books:cart_clear' %}"
-           class="btn btn-danger mb-3">
-            {% translate "Clear cart" %}
-        </a>
+            <aside class="bookshop-cart-summary">
+
+                <span class="bookshop-card-label">YOUR ORDER</span>
+                <h2>{% translate "Order summary" %}</h2>
+
+                <div class="bookshop-cart-summary-row">
+                    <span>{% translate "Total" %}</span>
+                    <strong>{{ cart.get_total_price }} ₴</strong>
+                </div>
+
+                <a href="{% url 'books:order_create' %}"
+                   class="bookshop-cart-checkout">
+                    {% translate "Checkout" %} →
+                </a>
+
+                <a href="{% url 'books:cart_clear' %}"
+                   class="bookshop-cart-clear">
+                    {% translate "Clear cart" %}
+                </a>
+
+            </aside>
+
+        </div>
 
     {% else %}
 
-        <p>{% translate "Your cart is empty." %}</p>
+        <div class="bookshop-cart-empty">
+            <div class="bookshop-cart-empty-icon">📚</div>
+            <h2>{% translate "Your cart is empty." %}</h2>
+            <p>{% translate "Discover your next favorite book." %}</p>
+
+            <a href="{% url 'books:book_list' %}"
+               class="bookshop-cart-checkout">
+                {% translate "Continue shopping" %} →
+            </a>
+        </div>
 
     {% endif %}
 
-    <a href="{% url 'books:book_list' %}"
-       class="btn btn-secondary">
-        {% translate "Continue shopping" %}
-    </a>
-
-</div>
+</section>
 
 {% endblock %}

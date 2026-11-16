@@ -1,11 +1,1069 @@
+
+:root {
+    --bookshop-primary: #713d4b;
+    --bookshop-primary-dark: #542936;
+    --bookshop-background: #faf8f5;
+    --bookshop-text: #29252a;
+    --bookshop-muted: #81767c;
+    --bookshop-border: #eee6e6;
+}
+
 body {
-    background-color: #f8f9fa;
+    background: var(--bookshop-background);
+    color: var(--bookshop-text);
+    font-family: "Segoe UI", Arial, sans-serif;
 }
 
-.card {
-    transition: transform 0.2s ease;
+.bookshop-intro {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: 32px;
+    padding: 42px 48px;
+    border-radius: 24px;
+    background: linear-gradient(115deg, #f3e5e6, #f9f1eb);
 }
 
-.card:hover {
-    transform: translateY(-3px);
+.bookshop-eyebrow {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--bookshop-primary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
 }
+
+.bookshop-intro h1 {
+    margin: 0 0 12px;
+    font-family: Georgia, serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 700;
+}
+
+.bookshop-intro p {
+    margin: 0;
+    color: var(--bookshop-muted);
+    font-size: 15px;
+}
+
+.bookshop-intro-icon {
+    font-size: 92px;
+    opacity: 0.75;
+    transform: rotate(-12deg);
+}
+
+.bookshop-filters {
+    display: flex;
+    align-items: end;
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.bookshop-filter-field {
+    width: min(100%, 360px);
+}
+
+.bookshop-filter-field label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.bookshop-filter-field .form-select {
+    min-height: 46px;
+    border: 1px solid var(--bookshop-border);
+    border-radius: 12px;
+}
+
+.bookshop-filter-button {
+    min-height: 46px;
+    padding: 0 26px;
+    border-radius: 12px;
+    background: var(--bookshop-primary);
+    color: white;
+    font-weight: 600;
+}
+
+.bookshop-filter-button:hover {
+    background: var(--bookshop-primary-dark);
+    color: white;
+}
+
+.bookshop-card {
+    overflow: hidden;
+    border: 1px solid var(--bookshop-border);
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 6px 24px rgba(50, 30, 35, 0.04);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.bookshop-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(50, 30, 35, 0.11);
+}
+
+.bookshop-card-cover {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 185px;
+    padding: 22px;
+    background: linear-gradient(135deg, #eee0de, #e4c9ca);
+}
+
+.bookshop-card:nth-child(2n) .bookshop-card-cover {
+    background: linear-gradient(135deg, #e5e7ef, #cfd5e5);
+}
+
+.bookshop-cover-decoration {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: rgba(113, 61, 75, 0.45);
+    font-size: 24px;
+}
+
+.bookshop-cover-icon {
+    font-size: 70px;
+    filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.08));
+}
+
+.bookshop-cover-category {
+    margin-top: 10px;
+    color: #624c55;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.bookshop-card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+}
+
+.bookshop-card-label {
+    margin-bottom: 9px;
+    color: var(--bookshop-primary);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.bookshop-card-title {
+    margin-bottom: 10px;
+    font-family: Georgia, serif;
+    font-size: 23px;
+    line-height: 1.3;
+}
+
+.bookshop-card-title a {
+    color: var(--bookshop-text);
+    text-decoration: none;
+}
+
+.bookshop-card-title a:hover {
+    color: var(--bookshop-primary);
+}
+
+.bookshop-author {
+    margin-bottom: 25px;
+    color: var(--bookshop-muted);
+    font-size: 14px;
+}
+
+.bookshop-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 10px;
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+.bookshop-price-label {
+    color: var(--bookshop-muted);
+    font-size: 12px;
+}
+
+.bookshop-price {
+    color: var(--bookshop-primary);
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.bookshop-stock {
+    color: #527a60;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.bookshop-stock-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-right: 4px;
+    border-radius: 50%;
+    background: #69a27a;
+}
+
+.bookshop-details-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 17px;
+    border-radius: 11px;
+    background: #f6edef;
+    color: var(--bookshop-primary);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.bookshop-details-button:hover {
+    background: #ead8dc;
+    color: var(--bookshop-primary-dark);
+}
+
+.bookshop-pagination .page-link {
+    color: var(--bookshop-primary);
+}
+
+.bookshop-pagination .active .page-link {
+    border-color: var(--bookshop-primary);
+    background: var(--bookshop-primary);
+    color: white;
+}
+
+.bookshop-empty {
+    padding: 55px 20px;
+    border-radius: 20px;
+    background: white;
+    text-align: center;
+}
+
+.bookshop-empty span {
+    font-size: 48px;
+}
+
+.bookshop-empty p {
+    margin-top: 15px;
+    color: var(--bookshop-muted);
+}
+
+@media (max-width: 576px) {
+    .bookshop-intro {
+        padding: 30px 24px;
+    }
+
+    .bookshop-intro-icon {
+        font-size: 48px;
+    }
+
+    .bookshop-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .bookshop-filter-field {
+        width: 100%;
+    }
+
+    .bookshop-filter-button {
+        width: 100%;
+    }
+}
+
+/* ===== BOOK DETAIL PAGE ===== */
+
+.bookshop-detail {
+    padding: 20px 0 60px;
+}
+
+.bookshop-back-link {
+    display: inline-block;
+    margin-bottom: 28px;
+    color: var(--bookshop-primary);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.bookshop-back-link:hover {
+    color: var(--bookshop-primary-dark);
+}
+
+.bookshop-detail-layout {
+    display: grid;
+    grid-template-columns: 42% 1fr;
+    gap: 50px;
+    align-items: start;
+}
+
+.bookshop-detail-cover {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 490px;
+    padding: 40px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #f0dedd, #e5c8cc);
+}
+
+.bookshop-detail-decoration {
+    position: absolute;
+    top: 30px;
+    right: 35px;
+    color: #b98c99;
+    font-size: 34px;
+}
+
+.bookshop-detail-book-icon {
+    font-size: 130px;
+    filter: drop-shadow(0 15px 12px rgba(0, 0, 0, 0.1));
+}
+
+.bookshop-detail-category {
+    margin-top: 25px;
+    color: var(--bookshop-primary);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.bookshop-detail-info {
+    padding: 25px 0;
+}
+
+.bookshop-detail-title {
+    margin: 15px 0;
+    font-family: Georgia, serif;
+    font-size: clamp(32px, 4vw, 46px);
+    line-height: 1.2;
+}
+
+.bookshop-detail-author {
+    color: var(--bookshop-muted);
+    font-size: 16px;
+}
+
+.bookshop-detail-divider {
+    height: 1px;
+    margin: 30px 0;
+    background: var(--bookshop-border);
+}
+
+.bookshop-detail-meta {
+    display: flex;
+    gap: 60px;
+    margin-bottom: 35px;
+}
+
+.bookshop-detail-meta div {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.bookshop-detail-meta span {
+    color: var(--bookshop-muted);
+    font-size: 13px;
+}
+
+.bookshop-detail-meta strong {
+    font-size: 15px;
+}
+
+.bookshop-detail-description {
+    margin-bottom: 35px;
+}
+
+.bookshop-detail-description h3 {
+    margin-bottom: 12px;
+    font-family: Georgia, serif;
+    font-size: 22px;
+}
+
+.bookshop-detail-description p {
+    color: var(--bookshop-muted);
+    line-height: 1.8;
+}
+
+.bookshop-detail-purchase {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 25px 0;
+    border-top: 1px solid var(--bookshop-border);
+    border-bottom: 1px solid var(--bookshop-border);
+}
+
+.bookshop-detail-cart-button {
+    display: inline-block;
+    padding: 15px 28px;
+    border: none;
+    border-radius: 12px;
+    background: var(--bookshop-primary);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.bookshop-detail-cart-button:hover {
+    background: var(--bookshop-primary-dark);
+    color: white;
+}
+
+.bookshop-detail-cart-button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+.bookshop-detail-actions {
+    display: flex;
+    gap: 25px;
+    margin-top: 25px;
+}
+
+.bookshop-detail-actions a {
+    color: var(--bookshop-muted);
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.bookshop-detail-actions a:hover {
+    color: var(--bookshop-primary);
+}
+
+.bookshop-detail-actions .bookshop-delete-link:hover {
+    color: #c0392b;
+}
+
+@media (max-width: 768px) {
+    .bookshop-detail-layout {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .bookshop-detail-cover {
+        min-height: 300px;
+    }
+
+    .bookshop-detail-book-icon {
+        font-size: 90px;
+    }
+
+    .bookshop-detail-meta {
+        gap: 30px;
+    }
+
+    .bookshop-detail-purchase {
+        flex-wrap: wrap;
+    }
+}
+
+/* ===== SHOPPING CART ===== */
+
+.bookshop-cart {
+    padding: 25px 0 70px;
+}
+
+.bookshop-cart-heading {
+    margin-bottom: 35px;
+}
+
+.bookshop-cart-heading h1 {
+    margin: 10px 0;
+    font-family: Georgia, serif;
+    font-size: clamp(32px, 4vw, 46px);
+    color: var(--bookshop-text);
+}
+
+.bookshop-cart-heading p {
+    color: var(--bookshop-muted);
+}
+
+.bookshop-cart-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    align-items: start;
+    gap: 30px;
+}
+
+.bookshop-cart-items {
+    min-width: 0;
+}
+
+.bookshop-cart-item {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin-bottom: 18px;
+    padding: 24px;
+    border: 1px solid var(--bookshop-border);
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 6px 24px rgba(50, 30, 35, 0.04);
+}
+
+.bookshop-cart-thumbnail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 105px;
+    height: 125px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #f1e1e2, #e5cbcf);
+    font-size: 48px;
+}
+
+.bookshop-cart-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.bookshop-cart-item-info h3 {
+    margin: 8px 0 12px;
+    font-family: Georgia, serif;
+    font-size: 21px;
+}
+
+.bookshop-cart-item-info h3 a {
+    color: var(--bookshop-text);
+    text-decoration: none;
+}
+
+.bookshop-cart-item-info h3 a:hover {
+    color: var(--bookshop-primary);
+}
+
+.bookshop-cart-item-info p {
+    margin-bottom: 15px;
+    color: var(--bookshop-muted);
+    font-size: 14px;
+}
+
+.bookshop-cart-remove {
+    color: #a15a65;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.bookshop-cart-remove:hover {
+    color: #8a3545;
+    text-decoration: underline;
+}
+
+.bookshop-cart-item-price {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 110px;
+    text-align: right;
+}
+
+.bookshop-cart-item-price span {
+    color: var(--bookshop-muted);
+    font-size: 12px;
+}
+
+.bookshop-cart-item-price strong {
+    margin-bottom: 8px;
+    color: var(--bookshop-primary);
+    font-size: 17px;
+}
+
+.bookshop-cart-continue {
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--bookshop-primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.bookshop-cart-continue:hover {
+    color: var(--bookshop-primary-dark);
+}
+
+.bookshop-cart-summary {
+    padding: 30px;
+    border: 1px solid var(--bookshop-border);
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 8px 30px rgba(50, 30, 35, 0.05);
+}
+
+.bookshop-cart-summary h2 {
+    margin: 12px 0 28px;
+    font-family: Georgia, serif;
+    font-size: 26px;
+}
+
+.bookshop-cart-summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--bookshop-border);
+}
+
+.bookshop-cart-summary-row span {
+    color: var(--bookshop-muted);
+}
+
+.bookshop-cart-summary-row strong {
+    color: var(--bookshop-primary);
+    font-size: 22px;
+}
+
+.bookshop-cart-checkout {
+    display: block;
+    padding: 15px 20px;
+    border-radius: 12px;
+    background: var(--bookshop-primary);
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.bookshop-cart-checkout:hover {
+    background: var(--bookshop-primary-dark);
+    color: white;
+}
+
+.bookshop-cart-clear {
+    display: block;
+    margin-top: 20px;
+    color: #a15a65;
+    font-size: 13px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.bookshop-cart-clear:hover {
+    color: #8a3545;
+    text-decoration: underline;
+}
+
+.bookshop-cart-empty {
+    max-width: 650px;
+    margin: 30px auto;
+    padding: 60px 30px;
+    border: 1px solid var(--bookshop-border);
+    border-radius: 24px;
+    background: white;
+    text-align: center;
+}
+
+.bookshop-cart-empty-icon {
+    margin-bottom: 20px;
+    font-size: 70px;
+}
+
+.bookshop-cart-empty h2 {
+    font-family: Georgia, serif;
+    font-size: 30px;
+}
+
+.bookshop-cart-empty p {
+    margin: 15px 0 30px;
+    color: var(--bookshop-muted);
+}
+
+.bookshop-cart-empty .bookshop-cart-checkout {
+    display: inline-block;
+}
+
+@media (max-width: 900px) {
+    .bookshop-cart-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .bookshop-cart-item {
+        flex-wrap: wrap;
+        padding: 18px;
+        gap: 15px;
+    }
+
+    .bookshop-cart-thumbnail {
+        width: 75px;
+        height: 95px;
+        font-size: 36px;
+    }
+
+    .bookshop-cart-item-price {
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        text-align: left;
+    }
+
+    .bookshop-cart-summary {
+        padding: 24px;
+    }
+}
+
+/* ===== CHECKOUT PAGE ===== */
+
+.bookshop-checkout {
+    padding: 25px 0 80px;
+}
+
+.bookshop-checkout-heading {
+    margin-bottom: 35px;
+}
+
+.bookshop-checkout-heading h1 {
+    margin: 10px 0;
+    font-family: Georgia, serif;
+    font-size: clamp(32px, 4vw, 46px);
+    color: var(--bookshop-text);
+}
+
+.bookshop-checkout-heading p {
+    color: var(--bookshop-muted);
+}
+
+.bookshop-checkout-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    align-items: start;
+    gap: 30px;
+}
+
+.bookshop-checkout-form,
+.bookshop-checkout-summary {
+    min-width: 0;
+    padding: 35px;
+    border: 1px solid var(--bookshop-border);
+    border-radius: 22px;
+    background: white;
+    box-shadow: 0 8px 30px rgba(50, 30, 35, 0.05);
+}
+
+.bookshop-checkout-form h2,
+.bookshop-checkout-summary h2 {
+    margin: 12px 0 30px;
+    font-family: Georgia, serif;
+    font-size: 27px;
+}
+
+.bookshop-checkout-field {
+    margin-bottom: 22px;
+}
+
+.bookshop-checkout-field label {
+    display: block;
+    margin-bottom: 9px;
+    color: var(--bookshop-text);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.bookshop-checkout-field input,
+.bookshop-checkout-field select,
+.bookshop-checkout-field textarea {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 15px;
+    border: 1px solid var(--bookshop-border);
+    border-radius: 12px;
+    background: #fdfbfa;
+    color: var(--bookshop-text);
+    font: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bookshop-checkout-field input:focus,
+.bookshop-checkout-field select:focus,
+.bookshop-checkout-field textarea:focus {
+    outline: none;
+    border-color: var(--bookshop-primary);
+    box-shadow: 0 0 0 3px rgba(113, 61, 75, 0.1);
+}
+
+.bookshop-checkout-field small {
+    display: block;
+    margin-top: 7px;
+    color: var(--bookshop-muted);
+    font-size: 12px;
+}
+
+.bookshop-required,
+.bookshop-field-error {
+    color: #b64b60;
+}
+
+.bookshop-field-error {
+    margin-top: 6px;
+    font-size: 13px;
+}
+
+.bookshop-checkout-submit {
+    display: block;
+    width: 100%;
+    margin-top: 30px;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 12px;
+    background: var(--bookshop-primary);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.bookshop-checkout-submit:hover {
+    background: var(--bookshop-primary-dark);
+    transform: translateY(-2px);
+}
+
+.bookshop-checkout-back {
+    display: inline-block;
+    margin-top: 22px;
+    color: var(--bookshop-primary);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.bookshop-checkout-back:hover {
+    color: var(--bookshop-primary-dark);
+}
+
+.bookshop-checkout-products {
+    margin-bottom: 25px;
+}
+
+.bookshop-checkout-product {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 17px 0;
+    border-bottom: 1px solid var(--bookshop-border);
+}
+
+.bookshop-checkout-product-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 64px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #f1e1e2;
+    font-size: 27px;
+}
+
+.bookshop-checkout-product-info {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.bookshop-checkout-product-info strong {
+    font-family: Georgia, serif;
+    font-size: 16px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+.bookshop-checkout-product-info span {
+    color: var(--bookshop-muted);
+    font-size: 12px;
+}
+
+.bookshop-checkout-product-price {
+    flex-shrink: 0;
+    color: var(--bookshop-primary);
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.bookshop-checkout-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding-top: 22px;
+}
+
+.bookshop-checkout-total span {
+    color: var(--bookshop-muted);
+}
+
+.bookshop-checkout-total strong {
+    color: var(--bookshop-primary);
+    font-size: 24px;
+}
+
+@media (max-width: 900px) {
+    .bookshop-checkout-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .bookshop-checkout-form,
+    .bookshop-checkout-summary {
+        padding: 24px;
+    }
+
+    .bookshop-checkout-product {
+        flex-wrap: wrap;
+    }
+
+    .bookshop-checkout-product-price {
+        margin-left: auto;
+    }
+}
+
+/* Order success page */
+
+.bookshop-success {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 65vh;
+    padding: 45px 15px;
+}
+
+.bookshop-success-card {
+    width: 100%;
+    max-width: 620px;
+    padding: 55px 50px;
+    background: #fff;
+    border: 1px solid var(--bookshop-border);
+    border-radius: 24px;
+    box-shadow: 0 16px 45px rgba(50, 30, 35, 0.06);
+    text-align: center;
+}
+
+.bookshop-success-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 28px;
+    border-radius: 50%;
+    background: #e9f3eb;
+    color: #527a60;
+    font-size: 46px;
+}
+
+.bookshop-success-card h1 {
+    margin: 16px 0;
+    font-family: Georgia, serif;
+    font-size: clamp(30px, 4vw, 42px);
+    color: var(--bookshop-text);
+}
+
+.bookshop-success-description {
+    margin-bottom: 35px;
+    color: var(--bookshop-muted);
+    font-size: 15px;
+}
+
+.bookshop-success-details {
+    margin-bottom: 30px;
+    padding: 24px;
+    border-radius: 15px;
+    background: #faf5f4;
+}
+
+.bookshop-success-detail {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 0;
+    text-align: left;
+}
+
+.bookshop-success-detail + .bookshop-success-detail {
+    border-top: 1px solid var(--bookshop-border);
+}
+
+.bookshop-success-detail span {
+    color: var(--bookshop-muted);
+}
+
+.bookshop-success-detail strong {
+    color: var(--bookshop-primary);
+    font-size: 18px;
+}
+
+.bookshop-success-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.bookshop-success-pay {
+    display: block;
+    padding: 15px 24px;
+    border-radius: 12px;
+    background: var(--bookshop-primary);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.bookshop-success-pay:hover {
+    background: var(--bookshop-primary-dark);
+    color: #fff;
+}
+
+.bookshop-success-back {
+    padding: 10px;
+    color: var(--bookshop-primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.bookshop-success-back:hover {
+    color: var(--bookshop-primary-dark);
+}
+
+@media (max-width: 576px) {
+    .bookshop-success-card {
+        padding: 35px 22px;
+    }
+
+    .bookshop-success-detail {
+        flex-wrap: wrap;
+    }
+}
+
+/* Cancelled payment */
+
+.bookshop-cancel-icon {
+    background: #f8e8e9;
+    color: #a85a68;
+    font-size: 54px;
+    font-weight: 300;
+}
+

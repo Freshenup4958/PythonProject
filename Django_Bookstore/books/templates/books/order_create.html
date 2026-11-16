@@ -1,3 +1,4 @@
+
 {% extends "books/base.html" %}
 {% load i18n %}
 
@@ -5,53 +6,112 @@
 
 {% block content %}
 
-<div class="container mt-4">
+<section class="bookshop-checkout">
 
-    <h1>{% translate "Checkout" %}</h1>
-
-    <div class="card mb-4">
-        <div class="card-body">
-
-            <h4>{% translate "Your order" %}</h4>
-
-            <ul class="list-group mb-3">
-                {% for item in cart %}
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>
-                            {{ item.book.title }} × {{ item.quantity }}
-                        </span>
-
-                        <span>
-                            ${{ item.total_price }}
-                        </span>
-                    </li>
-                {% endfor %}
-            </ul>
-
-            <h5>
-                {% translate "Total" %}: ${{ cart.get_total_price }}
-            </h5>
-
-        </div>
+    <div class="bookshop-checkout-heading">
+        <span class="bookshop-eyebrow">✦ BOOKSTORE COLLECTION</span>
+        <h1>{% translate "Checkout" %}</h1>
+        <p>{% translate "Complete your order" %}</p>
     </div>
 
-    <form method="post">
+    <div class="bookshop-checkout-layout">
 
-        {% csrf_token %}
+        <!-- Форма оформления заказа -->
+        <div class="bookshop-checkout-form">
 
-        {{ form.as_p }}
+            <span class="bookshop-card-label">YOUR DETAILS</span>
 
-        <button type="submit" class="btn btn-success">
-            {% translate "Create order" %}
-        </button>
+            <h2>{% translate "Customer information" %}</h2>
 
-        <a href="{% url 'books:cart_detail' %}"
-           class="btn btn-secondary">
-            {% translate "Back to cart" %}
-        </a>
+            <form method="post">
+                {% csrf_token %}
 
-    </form>
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
 
-</div>
+                {% for field in form %}
+                    <div class="bookshop-checkout-field">
+
+                        <label for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                            {% if field.field.required %}
+                                <span class="bookshop-required">*</span>
+                            {% endif %}
+                        </label>
+
+                        {{ field }}
+
+                        {% if field.help_text %}
+                            <small>{{ field.help_text }}</small>
+                        {% endif %}
+
+                        {% for error in field.errors %}
+                            <div class="bookshop-field-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                {% endfor %}
+
+                <button type="submit"
+                        class="bookshop-checkout-submit">
+                    {% translate "Create order" %} →
+                </button>
+
+            </form>
+
+            <a href="{% url 'books:cart_detail' %}"
+               class="bookshop-checkout-back">
+                ← {% translate "Back to cart" %}
+            </a>
+
+        </div>
+
+        <!-- Сводка заказа -->
+        <aside class="bookshop-checkout-summary">
+
+            <span class="bookshop-card-label">YOUR ORDER</span>
+
+            <h2>{% translate "Your order" %}</h2>
+
+            <div class="bookshop-checkout-products">
+
+                {% for item in cart %}
+                    <div class="bookshop-checkout-product">
+
+                        <div class="bookshop-checkout-product-icon">
+                            📖
+                        </div>
+
+                        <div class="bookshop-checkout-product-info">
+                            <strong>{{ item.book.title }}</strong>
+                            <span>
+                                {% translate "Quantity" %}: {{ item.quantity }}
+                            </span>
+                        </div>
+
+                        <div class="bookshop-checkout-product-price">
+                            {{ item.total_price }} ₴
+                        </div>
+
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <div class="bookshop-checkout-total">
+                <span>{% translate "Total" %}</span>
+                <strong>{{ cart.get_total_price }} ₴</strong>
+            </div>
+
+        </aside>
+
+    </div>
+
+</section>
 
 {% endblock %}

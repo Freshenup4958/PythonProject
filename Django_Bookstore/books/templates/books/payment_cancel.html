@@ -1,3 +1,4 @@
+
 {% extends "books/base.html" %}
 {% load i18n %}
 
@@ -5,21 +6,35 @@
 
 {% block content %}
 
-<div class="container mt-4">
+<section class="bookshop-success">
 
-    <div class="alert alert-warning">
-        <h2>{% translate "Payment cancelled" %}</h2>
+    <div class="bookshop-success-card">
 
-        <p>
+        <div class="bookshop-success-icon bookshop-cancel-icon">
+            ×
+        </div>
+
+        <span class="bookshop-eyebrow">
+            ✦ BOOKSTORE COLLECTION
+        </span>
+
+        <h1>{% translate "Payment cancelled" %}</h1>
+
+        <p class="bookshop-success-description">
             {% translate "The payment was not completed. You can return to the store and try again." %}
         </p>
+
+        <div class="bookshop-success-actions">
+
+            <a href="{% url 'books:book_list' %}"
+               class="bookshop-success-pay">
+                {% translate "Back to store" %} →
+            </a>
+
+        </div>
+
     </div>
 
-    <a href="{% url 'books:book_list' %}"
-       class="btn btn-primary">
-        {% translate "Back to store" %}
-    </a>
-
-</div>
+</section>
 
 {% endblock %}

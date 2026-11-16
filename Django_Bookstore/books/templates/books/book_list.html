@@ -1,3 +1,4 @@
+
 {% extends 'books/base.html' %}
 {% load i18n %}
 
@@ -5,108 +6,123 @@
 
 {% block content %}
 
-<h1 class="mb-4">{% translate "Book list" %}</h1>
-<form method="get" class="mb-4">
-    <div class="row">
-        <div class="col-md-4">
-            <select name="category" class="form-select">
-                <option value="">{% translate "All categories" %}</option>
-
-                {% for category in categories %}
-                    <option value="{{ category.id }}"
-                        {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>
-                        {{ category.name }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary">
-              {% translate "Filter" %}
-            </button>
-        </div>
+<section class="bookshop-intro">
+    <div class="bookshop-intro-content">
+       <span class="bookshop-eyebrow">
+    ✦ {% translate "BOOKSTORE COLLECTION" %}
+       </span>
+        <h1>{% translate "Book list" %}</h1>
+        <p>{% translate "Discover stories you'll love to read." %}</p>
     </div>
+    <div class="bookshop-intro-icon" aria-hidden="true">📚</div>
+</section>
+
+<form method="get" class="bookshop-filters">
+    <div class="bookshop-filter-field">
+        <label for="book-category">{% translate "Category" %}</label>
+        <select id="book-category" name="category" class="form-select">
+            <option value="">{% translate "All categories" %}</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}"
+                    {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button type="submit" class="btn bookshop-filter-button">
+        {% translate "Filter" %}
+    </button>
 </form>
-<div class="row">
+
+<div class="row g-4">
     {% for book in books %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-
-                    <h5 class="card-title">
-                      <a href="{% url 'books:book_detail' book.pk %}">
-                          {{ book.title }}
-                      </a>
-                    </h5>
-
-                    <p class="card-text">
-                        <strong>{% translate "Author" %}:</strong> {{ book.author }}
-                    </p>
-
-                    <p class="card-text">
-                        <strong>{% translate "Category" %}:</strong> {{ book.category }}
-                    </p>
-
-                    <p class="card-text">
-                        <strong>{% translate "Price" %}:</strong> {{ book.price }}
-                    </p>
-
-                    <p class="card-text">
-                        <strong>{% translate "In stock" %}:</strong> {{ book.stock }}
-                    </p>
-
+        <div class="col-md-6 col-lg-4">
+            <article class="card bookshop-card h-100">
+                <div class="bookshop-card-cover">
+                    <span class="bookshop-cover-decoration">✦</span>
+                    <span class="bookshop-cover-icon">📖</span>
+                    <span class="bookshop-cover-category">{{ book.category }}</span>
                 </div>
+
+                <div class="card-body bookshop-card-body">
+                    <span class="bookshop-card-label">
+                        {% translate "Bookstore" %}
+                    </span>
+
+                    <h2 class="bookshop-card-title">
+                        <a href="{% url 'books:book_detail' book.pk %}">
+                            {{ book.title }}
+                        </a>
+                    </h2>
+
+                    <p class="bookshop-author">
+                        {% translate "Author" %}: {{ book.author }}
+                    </p>
+
+                    <div class="bookshop-card-bottom">
+                        <div>
+                            <span class="bookshop-price-label">
+                                {% translate "Price" %}
+                            </span>
+                            <div class="bookshop-price">{{ book.price }} ₴</div>
+                        </div>
+
+                        <div class="bookshop-stock">
+                            <span class="bookshop-stock-dot"></span>
+                            {% translate "In stock" %}: {{ book.stock }}
+                        </div>
+                    </div>
+
+                    <a class="bookshop-details-button"
+                       href="{% url 'books:book_detail' book.pk %}">
+                        {% translate "Details" %} <span aria-hidden="true">→</span>
+                    </a>
+                </div>
+            </article>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="bookshop-empty">
+                <span>📚</span>
+                <p>{% translate "No books yet." %}</p>
             </div>
         </div>
-
-    {% empty %}
-
-       <p>{% translate "No books yet." %}</p>
-
     {% endfor %}
 </div>
 
-
 {% if is_paginated %}
-
-<nav>
-    <ul class="pagination justify-content-center">
-
+<nav class="mt-5" aria-label="{% translate 'Book pagination' %}">
+    <ul class="pagination justify-content-center bookshop-pagination">
         {% if page_obj.has_previous %}
             <li class="page-item">
                 <a class="page-link"
-                   href="?page={{ page_obj.previous_page_number }}">
-                   {% translate "Previous" %}
+                   href="?category={{ selected_category|default:'' }}&amp;page={{ page_obj.previous_page_number }}">
+                    {% translate "Previous" %}
                 </a>
             </li>
         {% endif %}
 
-
         {% for num in page_obj.paginator.page_range %}
-
             <li class="page-item {% if page_obj.number == num %}active{% endif %}">
                 <a class="page-link"
-                   href="?page={{ num }}">
+                   href="?category={{ selected_category|default:'' }}&amp;page={{ num }}">
                     {{ num }}
                 </a>
             </li>
-
         {% endfor %}
-
 
         {% if page_obj.has_next %}
             <li class="page-item">
                 <a class="page-link"
-                   href="?page={{ page_obj.next_page_number }}">
+                   href="?category={{ selected_category|default:'' }}&amp;page={{ page_obj.next_page_number }}">
                     {% translate "Next" %}
                 </a>
             </li>
         {% endif %}
-
     </ul>
 </nav>
-
 {% endif %}
 
 {% endblock %}

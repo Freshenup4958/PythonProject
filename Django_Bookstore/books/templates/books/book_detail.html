@@ -1,70 +1,88 @@
+
 {% extends 'books/base.html' %}
 {% load i18n %}
 
-{% block title %}
-{{ book.title }}
-{% endblock %}
+{% block title %}{{ book.title }}{% endblock %}
 
 {% block content %}
 
-<div class="card">
-    <div class="card-body">
+<div class="bookshop-detail">
 
-        <h1 class="card-title">
-            {{ book.title }}
-        </h1>
+    <a href="{% url 'books:book_list' %}" class="bookshop-back-link">
+        ← {% translate "Back to list" %}
+    </a>
 
-        <p>
-            <strong>{% translate "Author" %}:</strong>
-            {{ book.author }}
-        </p>
+    <div class="bookshop-detail-layout">
 
-        <p>
-            <strong>{% translate "Category" %}:</strong>
-            {{ book.category }}
-        </p>
+        <div class="bookshop-detail-cover">
+            <span class="bookshop-detail-decoration">✦</span>
+            <div class="bookshop-detail-book-icon">📖</div>
+            <span class="bookshop-detail-category">
+                {{ book.category }}
+            </span>
+        </div>
 
-        <p>
-            <strong>{% translate "Price" %}:</strong>
-            {{ book.price }}
-        </p>
+        <div class="bookshop-detail-info">
 
-        <p>
-            <strong>{% translate "In stock" %}:</strong>
-            {{ book.stock }}
-        </p>
+            <span class="bookshop-card-label">BOOKSTORE COLLECTION</span>
 
-        <p>
-            <strong>{% translate "Description" %}:</strong>
-            {{ book.description }}
-        </p>
+            <h1 class="bookshop-detail-title">{{ book.title }}</h1>
 
-        {% if book.stock > 0 %}
-            <a href="{% url 'books:cart_add' book.id %}"
-               class="btn btn-success">
-                {% translate "Add to cart" %}
-            </a>
-        {% else %}
-            <button class="btn btn-secondary" disabled>
-                {% translate "Out of stock" %}
-            </button>
-        {% endif %}
+            <p class="bookshop-detail-author">
+                {% translate "Author" %}: {{ book.author }}
+            </p>
 
-        <a href="{% url 'books:book_update' book.pk %}"
-           class="btn btn-warning">
-            {% translate "Edit" %}
-        </a>
+            <div class="bookshop-detail-divider"></div>
 
-        <a href="{% url 'books:book_list' %}"
-           class="btn btn-secondary">
-            {% translate "Back to list" %}
-        </a>
+            <div class="bookshop-detail-meta">
+                <div>
+                    <span>{% translate "Category" %}</span>
+                    <strong>{{ book.category }}</strong>
+                </div>
 
-        <a href="{% url 'books:book_delete' book.pk %}"
-           class="btn btn-danger">
-            {% translate "Delete" %}
-        </a>
+                <div>
+                    <span>{% translate "In stock" %}</span>
+                    <strong>{{ book.stock }}</strong>
+                </div>
+            </div>
 
+            <div class="bookshop-detail-description">
+                <h3>{% translate "Description" %}</h3>
+                <p>{{ book.description|linebreaksbr }}</p>
+            </div>
+
+            <div class="bookshop-detail-purchase">
+                <div>
+                    <span class="bookshop-price-label">
+                        {% translate "Price" %}
+                    </span>
+                    <div class="bookshop-price">{{ book.price }} ₴</div>
+                </div>
+
+                {% if book.stock > 0 %}
+                    <a href="{% url 'books:cart_add' book.id %}"
+                       class="bookshop-detail-cart-button">
+                        🛒 {% translate "Add to cart" %}
+                    </a>
+                {% else %}
+                    <button class="bookshop-detail-cart-button" disabled>
+                        {% translate "Out of stock" %}
+                    </button>
+                {% endif %}
+            </div>
+
+            <div class="bookshop-detail-actions">
+                <a href="{% url 'books:book_update' book.pk %}">
+                    ✎ {% translate "Edit" %}
+                </a>
+
+                <a href="{% url 'books:book_delete' book.pk %}"
+                   class="bookshop-delete-link">
+                    🗑 {% translate "Delete" %}
+                </a>
+            </div>
+
+        </div>
     </div>
 </div>
 
