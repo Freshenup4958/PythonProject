@@ -22,5 +22,4 @@ ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
 ENV PORT=8000
 
-CMD ["sh", "-c", "exec gunicorn bookstore.wsgi:application --bind 0.0.0.0:${PORT} --workers 3"]
-
+CMD ["sh", "-c", "exec gunicorn bookstore.wsgi:application --bind 0.0.0.0:${PORT} --workers 1"]
